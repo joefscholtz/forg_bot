@@ -3,9 +3,25 @@ FROM ros2_docker:dev AS forg_bot:dev
 
 USER root
 
-#Install outside-bringup dependencies
-RUN apt-get update \
+#Install forg_bot dependencies
+# RUN apt-get update \
     # && apt-get install -y \
+    # ros-humble-ament-cmake-ros \
+    # ros-humble-ament-lint-auto \
+    # ros-humble-ament-lint-common \
+    # ros-humble-controller-interface \
+    # ros-humble-generate-parameter-library \
+    # ros-humble-geometry-msgs \
+    # ros-humble-hardware-interface \
+    # ros-humble-joint-state-publisher-gui \
+    # ros-humble-pluginlib \
+    # ros-humble-rclcpp \
+    # ros-humble-rclcpp-lifecycle \
+    # ros-humble-realtime-tools \
+    # ros-humble-sensor-msgs \
+    # ros-humble-tf2-geometry-msgs \
+    # ros-humble-tf2-ros \
+    # ros-humble-xacro \
     # ros-humble-control-msgs \
     # ros-humble-joint-state-broadcaster \
     # ros-humble-gazebo-ros \
@@ -13,7 +29,7 @@ RUN apt-get update \
     # ros-humble-ros2-control \
     # ros-humble-controller-manager \
     # ros-humble-ros2-controllers \
-    && rm -rf /var/lib/apt/lists/*
+    # && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /home/ros
 WORKDIR /home/ros/
