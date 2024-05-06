@@ -52,6 +52,10 @@ cd ~/ros2_ws/src/forg_bot/
 ./x11run.sh
 ```
 
+## TODO
+
+- [ ] Add license
+
 ## Special thanks
 
 - The robot design was heavily inspired by [WildWilly's Stair Climbing Rover](https://www.printables.com/model/194299-stair-climbing-rover)
