@@ -1,5 +1,5 @@
-FROM ros2_docker:base AS forg_bot:base
-FROM ros2_docker:dev AS forg_bot:dev
+FROM ros2_docker:base AS forg_bot_base
+FROM ros2_docker:dev AS forg_bot_dev
 
 USER root
 
