@@ -1,6 +1,6 @@
 # Forg Bot
 
-Navigation with [Curiosity Rover](https://science.nasa.gov/mission/msl-curiosity/) inspired mobile robot in ROS 2. Tested with ROS Humble on Ubuntu 22.04 Jammy Jellyfish.
+Navigation with [Curiosity Rover](https://science.nasa.gov/mission/msl-curiosity/) inspired holonomic mobile robot in ROS 2. Tested with ROS Humble on Ubuntu 22.04 Jammy Jellyfish.
 
 ## Install
 
@@ -45,6 +45,14 @@ cd ~/ros2_ws/src/forg_bot/
 docker build --target forg_bot_dev --tag forg_bot:dev . #or base
 ```
 
+It is also possible to build with the provided script with
+
+```bash
+cd ~/ros2_ws/src/forg_bot/
+chmod +x docker_build.sh
+./docker_build.sh
+```
+
 And then run with
 
 ```bash
@@ -55,6 +63,10 @@ cd ~/ros2_ws/src/forg_bot/
 ## TODO
 
 - [ ] Add license
+- [ ] Maybe it is a good idea to use FreeCAD + ROS 2 integration in the future. Sources:
+    - [FreeCAD ROS Workbench](https://github.com/galou/freecad.cross)
+    - [FreeCAD CAD & ROS Open-Source Synergy (CROSS)](https://github.com/drfenixion/freecad.overcross)
+    - [Freecad to Gazebo Exporter](https://github.com/Dave-Elec/freecad_to_gazebo)
 
 ## Special thanks
 
