@@ -4,8 +4,8 @@ FROM ros2_docker:dev AS forg_bot_dev
 USER root
 
 #Install forg_bot dependencies
-# RUN apt-get update \
-    # && apt-get install -y \
+RUN apt-get update \
+    && apt-get install -y \
     # ros-humble-ament-cmake-ros \
     # ros-humble-ament-lint-auto \
     # ros-humble-ament-lint-common \
@@ -21,7 +21,7 @@ USER root
     # ros-humble-sensor-msgs \
     # ros-humble-tf2-geometry-msgs \
     # ros-humble-tf2-ros \
-    # ros-humble-xacro \
+    ros-humble-xacro \
     # ros-humble-control-msgs \
     # ros-humble-joint-state-broadcaster \
     # ros-humble-gazebo-ros \
@@ -29,7 +29,7 @@ USER root
     # ros-humble-ros2-control \
     # ros-humble-controller-manager \
     # ros-humble-ros2-controllers \
-    # && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /home/ros
 WORKDIR /home/ros/
