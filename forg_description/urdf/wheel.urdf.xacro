@@ -1,0 +1,40 @@
+<?xml version="1.0" ?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:include filename="inertial_macros.urdf.xacro"/>
+
+	<xacro:arg name="ignition" default="false"/>
+
+	<xacro:macro name="wheel" params="name parent *origin **mirror">
+
+    <joint name="${name}_joint" type="continuous">
+			<parent link="${parent}"/>
+			<child link="${name}"/>
+			<xacro:insert_block name="origin"/>
+			<axis xyz="1 0 0"/>
+      <limit effort="${13.3*9.81*2.9}" velocity="${1000*2*pi/60}"/> <!-- TODO: replace with motor limits -->
+			<!--dynamics damping="0.1" friction="1"/--> <!-- TODO: replace with motor + axis properties -->
+		</joint>
+
+		<link name="${name}">
+			<visual>
+				<xacro:insert_block name="mirror"/>
+				<geometry>
+					<mesh filename="package://forg_description/meshes/wheel.dae"/>
+				</geometry>
+			</visual>
+			<collision>
+        <xacro:insert_block name="origin"/>
+        <xacro:insert_block name="mirror"/>
+				<geometry>
+					<mesh filename="package://forg_description/meshes/wheel.dae"/>
+				</geometry>
+			</collision>
+      <xacro:inertial_cylinder mass="0.2" length="0.015" radius="0.06"> <!-- TODO: replace wheel mass with real value -->
+				<xacro:insert_block name="origin"/>
+				<xacro:insert_block name="mirror"/>
+      </xacro:inertial_cylinder>
+		</link>
+
+	</xacro:macro>
+</robot>
