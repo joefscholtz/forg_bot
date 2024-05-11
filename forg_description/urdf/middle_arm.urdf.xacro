@@ -5,59 +5,58 @@
 
 	<xacro:arg name="ignition" default="false"/>
 
-	<xacro:macro name="wheel" params="name parent *origin **mirror">
+	<xacro:macro name="middle_arm" params="name parent *origin **mirror">
 
-    <joint name="${name}_joint" type="continuous">
+    <joint name="${name}_shoulder_axis_joint" type="continuous">
 			<parent link="${parent}"/>
-			<child link="${name}_axis"/>
+			<child link="${name}_shoulder_axis"/>
 			<xacro:insert_block name="origin"/>
+      <xacro:insert_block name="mirror"/>
 			<axis xyz="0 0 1"/>
-      <limit effort="${13.3*9.81*2.9}" velocity="${1000*2*pi/60}"/> <!-- TODO: replace with motor limits -->
-			<!--dynamics damping="0.1" friction="1"/--> <!-- TODO: replace with motor + axis properties -->
 		</joint>
 
-		<link name="${name}_axis">
+    <link name="${name}_shoulder_axis">
 			<visual>
 				<xacro:insert_block name="mirror"/>
 				<geometry>
-					<mesh filename="package://forg_description/meshes/wheel_axis.dae"/>
+					<mesh filename="package://forg_description/meshes/shoulder_axis.dae"/>
 				</geometry>
 			</visual>
 			<collision>
         <xacro:insert_block name="origin"/>
         <xacro:insert_block name="mirror"/>
 				<geometry>
-					<mesh filename="package://forg_description/meshes/wheel_axis.dae"/>
+					<mesh filename="package://forg_description/meshes/shoulder_axis.dae"/>
 				</geometry>
 			</collision>
-      <xacro:inertial_cylinder mass="0.05" length="0.17" radius="0.00625"> <!-- TODO: replace wheel axis mass with real value -->
+      <xacro:inertial_cylinder mass="0.05" length="0.17" radius="0.00625"> <!-- TODO: replace shoulder axis mass with real value -->
 				<xacro:insert_block name="origin"/>
 				<xacro:insert_block name="mirror"/>
       </xacro:inertial_cylinder>
 		</link>
 
-    <joint name="${name}_axis_joint" type="fixed">
-			<parent link="${name}_axis"/>
+    <joint name="${name}_joint" type="fixed">
+			<parent link="${name}_shoulder_axis"/>
 			<child link="${name}"/>
-      <origin rpy="0 ${-pi/2} 0"/>
-			<axis xyz="1 0 0"/>
+      <origin xyz="0 0 ${-0.005}" rpy="0 ${-pi/2} 0"/>
+			<axis xyz="0 0 1"/>
 		</joint>
 
-		<link name="${name}">
+    <link name="${name}">
 			<visual>
 				<xacro:insert_block name="mirror"/>
 				<geometry>
-					<mesh filename="package://forg_description/meshes/wheel.dae"/>
+					<mesh filename="package://forg_description/meshes/middle_arm.dae"/>
 				</geometry>
 			</visual>
 			<collision>
         <xacro:insert_block name="origin"/>
         <xacro:insert_block name="mirror"/>
 				<geometry>
-					<mesh filename="package://forg_description/meshes/wheel.dae"/>
+					<mesh filename="package://forg_description/meshes/middle_arm.dae"/>
 				</geometry>
 			</collision>
-      <xacro:inertial_cylinder mass="0.2" length="0.015" radius="0.06"> <!-- TODO: replace wheel mass with real value -->
+      <xacro:inertial_cylinder mass="0.05" length="0.17" radius="0.00625"> <!-- TODO: replace shoulder axis mass with real value -->
 				<xacro:insert_block name="origin"/>
 				<xacro:insert_block name="mirror"/>
       </xacro:inertial_cylinder>

@@ -14,6 +14,7 @@ def generate_launch_description():
     forg_description = get_package_share_path("forg_description")
 
     use_sim_time = LaunchConfiguration("use_sim_time")
+    publish_robot_state = LaunchConfiguration("publish_robot_state")
     rviz_config = LaunchConfiguration("rviz_config")
 
     robot_state_publisher_launch = IncludeLaunchDescription(
@@ -23,6 +24,7 @@ def generate_launch_description():
         launch_arguments={
             "use_sim_time": use_sim_time,
         }.items(),
+        condition=IfCondition(LaunchConfiguration("publish_robot_state")),
     )
 
     joint_state_publisher_node = Node(
@@ -57,8 +59,13 @@ def generate_launch_description():
                 description="Path to rviz config file",
             ),
             DeclareLaunchArgument(
+                "publish_robot_state",
+                default_value="true",
+                description="Run robot state publisher if true",
+            ),
+            DeclareLaunchArgument(
                 "jsp_gui",
-                default_value="false",
+                default_value="true",
                 description="Use joint_state_publisher_gui instead of joint_state_publisher if true",
             ),
             robot_state_publisher_launch,
