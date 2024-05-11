@@ -2,30 +2,31 @@
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
   <xacro:include filename="inertial_macros.urdf.xacro"/>
-  <xacro:include filename="wheel.urdf.xacro"/>
 
 	<xacro:arg name="ignition" default="false"/>
 
-	<xacro:macro name="wheel_steering" params="name parent *origin **mirror">
+	<xacro:macro name="back_arm" params="name parent *origin **mirror">
 
-    <joint name="${name}_base_joint" type="fixed">
+    <joint name="${name}_joint" type="continuous">
 			<parent link="${parent}"/>
 			<child link="${name}"/>
       <xacro:insert_block name="origin"/>
+			<axis xyz="1 0 0"/>
 		</joint>
 
-    <link name="${name}_base">
+    <link name="${name}">
 			<visual>
+        <origin xyz="0 0 0"/>
 				<xacro:insert_block name="mirror"/>
 				<geometry>
-					<mesh filename="package://forg_description/meshes/steering_base.dae"/>
+					<mesh filename="package://forg_description/meshes/back_arm.dae"/>
 				</geometry>
 			</visual>
 			<collision>
         <origin xyz="0 0 0"/>
         <xacro:insert_block name="mirror"/>
 				<geometry>
-					<mesh filename="package://forg_description/meshes/steering_base.dae"/>
+					<mesh filename="package://forg_description/meshes/back_arm.dae"/>
 				</geometry>
 			</collision>
       <xacro:inertial_box mass="0.05" x="0.17" y="0.00625" z="0.8"> <!-- TODO: replace shoulder axis mass with real value -->
@@ -33,13 +34,6 @@
 				<xacro:insert_block name="mirror"/>
       </xacro:inertial_box>
 		</link>
-
-    <xacro:wheel name="${name}" parent="${name}_base">
-    <origin xyz="0 ${0.15+0.045+0.11-0.035} ${0.03-0.5}" rpy="${pi/2} 0 ${-pi}"/>
-    <mirror>
-      <origin rpy="0 0 0"/>
-    </mirror>
-  </xacro:wheel>
 
 	</xacro:macro>
 </robot>
