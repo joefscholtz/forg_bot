@@ -4,10 +4,8 @@
     <!-- Specify some standard inertial calculations https://en.wikipedia.org/wiki/List_of_moments_of_inertia -->
     <!-- These make use of xacro's mathematical functionality -->
 
-    <xacro:macro name="inertial_sphere" params="mass radius *origin **mirror">
+    <xacro:macro name="inertial_sphere" params="mass radius">
         <inertial>
-				    <xacro:insert_block name="mirror"/>
-            <xacro:insert_block name="origin"/>
             <mass value="${mass}" />
             <inertia ixx="${(2/5) * mass * (radius*radius)}" ixy="0.0" ixz="0.0"
                     iyy="${(2/5) * mass * (radius*radius)}" iyz="0.0"
@@ -16,10 +14,8 @@
     </xacro:macro>
 
 
-    <xacro:macro name="inertial_box" params="mass x y z *origin **mirror">
+    <xacro:macro name="inertial_box" params="mass x y z">
         <inertial>
-				    <xacro:insert_block name="mirror"/>
-            <xacro:insert_block name="origin"/>
             <mass value="${mass}" />
             <inertia ixx="${(1/12) * mass * (y*y+z*z)}" ixy="0.0" ixz="0.0"
                     iyy="${(1/12) * mass * (x*x+z*z)}" iyz="0.0"
@@ -28,10 +24,8 @@
     </xacro:macro>
 
 
-    <xacro:macro name="inertial_cylinder" params="mass length radius *origin **mirror">
+    <xacro:macro name="inertial_cylinder" params="mass length radius">
         <inertial>
-				    <xacro:insert_block name="mirror"/>
-            <xacro:insert_block name="origin"/>
             <mass value="${mass}" />
             <inertia ixx="${(1/12) * mass * (3*radius*radius + length*length)}" ixy="0.0" ixz="0.0"
                     iyy="${(1/12) * mass * (3*radius*radius + length*length)}" iyz="0.0"

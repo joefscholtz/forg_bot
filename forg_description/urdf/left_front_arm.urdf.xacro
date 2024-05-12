@@ -5,7 +5,7 @@
 
 	<xacro:arg name="ignition" default="false"/>
 
-	<xacro:macro name="front_arm" params="name parent *origin **mirror">
+	<xacro:macro name="left_front_arm" params="name parent *origin">
 
     <joint name="${name}_joint" type="continuous">
 			<parent link="${parent}"/>
@@ -16,23 +16,16 @@
 
     <link name="${name}">
 			<visual>
-        <origin xyz="0 ${-0.07-0.18-0.015} ${-0.15 - 0.09/2}"/>
-				<xacro:insert_block name="mirror"/>
 				<geometry>
-					<mesh filename="package://forg_description/meshes/front_arm.dae"/>
+					<mesh filename="package://forg_description/meshes/left_front_arm.dae"/>
 				</geometry>
 			</visual>
 			<collision>
-        <origin xyz="0 ${-0.07-0.18-0.015} ${-0.15 - 0.09/2}"/>
-        <xacro:insert_block name="mirror"/>
 				<geometry>
-					<mesh filename="package://forg_description/meshes/front_arm.dae"/>
+					<mesh filename="package://forg_description/meshes/left_front_arm.dae"/>
 				</geometry>
 			</collision>
-      <xacro:inertial_box mass="0.05" x="0.17" y="0.00625" z="0.8"> <!-- TODO: replace shoulder axis mass with real value -->
-        <origin xyz="0 ${-0.07-0.18-0.015} ${-0.15 - 0.09/2}"/>
-				<xacro:insert_block name="mirror"/>
-      </xacro:inertial_box>
+      <xacro:inertial_box mass="0.05" x="0.17" y="0.00625" z="0.8"/> <!-- TODO: replace shoulder axis mass with real value -->
 		</link>
 
 	</xacro:macro>

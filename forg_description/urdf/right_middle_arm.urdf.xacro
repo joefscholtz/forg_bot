@@ -5,7 +5,7 @@
 
 	<xacro:arg name="ignition" default="false"/>
 
-	<xacro:macro name="left_middle_arm" params="name parent *origin">
+	<xacro:macro name="right_middle_arm" params="name parent *origin">
 
     <joint name="${name}_shoulder_axis_joint" type="continuous">
 			<parent link="${parent}"/>
@@ -31,7 +31,7 @@
     <joint name="${name}_joint" type="fixed">
 			<parent link="${name}_shoulder_axis"/>
 			<child link="${name}"/>
-      <origin xyz="0 0 ${-0.005}" rpy="0 ${-pi/2} 0"/>
+      <origin xyz="0 0 ${0.005}" rpy="0 ${-pi/2} 0"/>
 			<axis xyz="0 0 1"/>
 		</joint>
 

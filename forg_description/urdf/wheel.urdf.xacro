@@ -5,7 +5,7 @@
 
 	<xacro:arg name="ignition" default="false"/>
 
-	<xacro:macro name="wheel" params="name parent *origin **mirror">
+	<xacro:macro name="wheel" params="name parent *origin">
 
     <joint name="${name}_joint" type="continuous">
 			<parent link="${parent}"/>
@@ -18,22 +18,16 @@
 
 		<link name="${name}_axis">
 			<visual>
-				<xacro:insert_block name="mirror"/>
 				<geometry>
 					<mesh filename="package://forg_description/meshes/wheel_axis.dae"/>
 				</geometry>
 			</visual>
 			<collision>
-        <xacro:insert_block name="origin"/>
-        <xacro:insert_block name="mirror"/>
 				<geometry>
 					<mesh filename="package://forg_description/meshes/wheel_axis.dae"/>
 				</geometry>
 			</collision>
-      <xacro:inertial_cylinder mass="0.05" length="0.17" radius="0.00625"> <!-- TODO: replace wheel axis mass with real value -->
-				<xacro:insert_block name="origin"/>
-				<xacro:insert_block name="mirror"/>
-      </xacro:inertial_cylinder>
+      <xacro:inertial_cylinder mass="0.05" length="0.17" radius="0.00625"/> <!-- TODO: replace wheel axis mass with real value -->
 		</link>
 
     <joint name="${name}_axis_joint" type="fixed">
@@ -45,22 +39,16 @@
 
 		<link name="${name}">
 			<visual>
-				<xacro:insert_block name="mirror"/>
 				<geometry>
 					<mesh filename="package://forg_description/meshes/wheel.dae"/>
 				</geometry>
 			</visual>
 			<collision>
-        <xacro:insert_block name="origin"/>
-        <xacro:insert_block name="mirror"/>
 				<geometry>
 					<mesh filename="package://forg_description/meshes/wheel.dae"/>
 				</geometry>
 			</collision>
-      <xacro:inertial_cylinder mass="0.2" length="0.015" radius="0.06"> <!-- TODO: replace wheel mass with real value -->
-				<xacro:insert_block name="origin"/>
-				<xacro:insert_block name="mirror"/>
-      </xacro:inertial_cylinder>
+      <xacro:inertial_cylinder mass="0.2" length="0.015" radius="0.06"/> <!-- TODO: replace wheel mass with real value -->
 		</link>
 
 	</xacro:macro>

@@ -5,7 +5,7 @@
 
 	<xacro:arg name="ignition" default="false"/>
 
-	<xacro:macro name="base" params="name parent *origin **mirror">
+	<xacro:macro name="base" params="name parent *origin">
 
     <joint name="${name}_joint" type="fixed">
 			<parent link="${parent}"/>
@@ -16,22 +16,16 @@
 
     <link name="${name}">
 			<visual>
-				<xacro:insert_block name="mirror"/>
 				<geometry>
 					<mesh filename="package://forg_description/meshes/spine.dae"/>
 				</geometry>
 			</visual>
 			<collision>
-        <xacro:insert_block name="origin"/>
-        <xacro:insert_block name="mirror"/>
 				<geometry>
 					<mesh filename="package://forg_description/meshes/spine.dae"/>
 				</geometry>
 			</collision>
-      <xacro:inertial_box mass="5" x="0.17" y="0.17" z="0.17"> <!-- TODO: replace with real values -->
-				<xacro:insert_block name="origin"/>
-				<xacro:insert_block name="mirror"/>
-      </xacro:inertial_box>
+      <xacro:inertial_box mass="5" x="0.17" y="0.17" z="0.17"/> <!-- TODO: replace with real values -->
 		</link>
 
 	</xacro:macro>

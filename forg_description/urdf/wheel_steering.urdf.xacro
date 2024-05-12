@@ -6,39 +6,53 @@
 
 	<xacro:arg name="ignition" default="false"/>
 
-	<xacro:macro name="wheel_steering" params="name parent *origin **mirror">
+	<xacro:macro name="wheel_steering" params="name parent *origin">
 
     <joint name="${name}_base_joint" type="fixed">
 			<parent link="${parent}"/>
-			<child link="${name}"/>
+			<child link="${name}_base"/>
       <xacro:insert_block name="origin"/>
 		</joint>
 
     <link name="${name}_base">
 			<visual>
-				<xacro:insert_block name="mirror"/>
 				<geometry>
 					<mesh filename="package://forg_description/meshes/steering_base.dae"/>
 				</geometry>
 			</visual>
 			<collision>
         <origin xyz="0 0 0"/>
-        <xacro:insert_block name="mirror"/>
 				<geometry>
 					<mesh filename="package://forg_description/meshes/steering_base.dae"/>
 				</geometry>
 			</collision>
-      <xacro:inertial_box mass="0.05" x="0.17" y="0.00625" z="0.8"> <!-- TODO: replace shoulder axis mass with real value -->
-        <origin xyz="0 0 0"/>
-				<xacro:insert_block name="mirror"/>
-      </xacro:inertial_box>
+      <xacro:inertial_box mass="0.05" x="0.17" y="0.00625" z="0.8"/> <!-- TODO: replace shoulder axis mass with real value -->
 		</link>
 
-    <xacro:wheel name="${name}" parent="${name}_base">
+    <joint name="${name}_steering_gear_joint" type="continuous">
+			<parent link="${name}_base"/>
+			<child link="${name}_steering_gear"/>
+      <origin xyz="0 0 ${0.15/2 - 0.005/2}"/>
+      <axis xyz="0 0 1"/>
+		</joint>
+
+    <link name="${name}_steering_gear">
+			<visual>
+				<geometry>
+					<mesh filename="package://forg_description/meshes/steering_gear.dae"/>
+				</geometry>
+			</visual>
+			<collision>
+        <origin xyz="0 0 0"/>
+				<geometry>
+					<mesh filename="package://forg_description/meshes/steering_gear.dae"/>
+				</geometry>
+			</collision>
+      <xacro:inertial_box mass="0.05" x="0.17" y="0.00625" z="0.8"/> <!-- TODO: replace shoulder axis mass with real value -->
+		</link>
+
+  <xacro:wheel name="${name}" parent="${name}_steering_gear">
     <origin xyz="0 ${0.15+0.045+0.11-0.035} ${0.03-0.5}" rpy="${pi/2} 0 ${-pi}"/>
-    <mirror>
-      <origin rpy="0 0 0"/>
-    </mirror>
   </xacro:wheel>
 
 	</xacro:macro>
