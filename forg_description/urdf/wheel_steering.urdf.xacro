@@ -21,7 +21,6 @@
 				</geometry>
 			</visual>
 			<collision>
-        <origin xyz="0 0 0"/>
 				<geometry>
 					<mesh filename="package://forg_description/meshes/steering_base.dae"/>
 				</geometry>
@@ -32,7 +31,7 @@
     <joint name="${name}_steering_gear_joint" type="continuous">
 			<parent link="${name}_base"/>
 			<child link="${name}_steering_gear"/>
-      <origin xyz="0 0 ${0.15/2 - 0.005/2}"/>
+      <origin xyz="0 0 ${0.15/2 - 0.005}"/>
       <axis xyz="0 0 1"/>
 		</joint>
 
@@ -43,7 +42,6 @@
 				</geometry>
 			</visual>
 			<collision>
-        <origin xyz="0 0 0"/>
 				<geometry>
 					<mesh filename="package://forg_description/meshes/steering_gear.dae"/>
 				</geometry>
@@ -51,8 +49,29 @@
       <xacro:inertial_box mass="0.05" x="0.17" y="0.00625" z="0.8"/> <!-- TODO: replace shoulder axis mass with real value -->
 		</link>
 
-  <xacro:wheel name="${name}" parent="${name}_steering_gear">
-    <origin xyz="0 ${0.15+0.045+0.11-0.035} ${0.03-0.5}" rpy="${pi/2} 0 ${-pi}"/>
+    <joint name="${name}_steering_joint" type="fixed">
+			<parent link="${name}_steering_gear"/>
+			<child link="${name}_steering"/>
+      <origin xyz="0 0 ${0.06 + 0.005}" rpy="-${pi/2} 0 0"/>
+      <axis xyz="0 0 1"/>
+		</joint>
+
+    <link name="${name}_steering">
+			<visual>
+				<geometry>
+					<mesh filename="package://forg_description/meshes/wheel_steering.dae"/>
+				</geometry>
+			</visual>
+			<collision>
+				<geometry>
+					<mesh filename="package://forg_description/meshes/wheel_steering.dae"/>
+				</geometry>
+			</collision>
+      <xacro:inertial_box mass="0.05" x="0.17" y="0.00625" z="0.8"/> <!-- TODO: replace shoulder axis mass with real value -->
+		</link>
+
+  <xacro:wheel name="${name}" parent="${name}_steering">
+      <origin rpy="0 ${pi/2} 0"/>
   </xacro:wheel>
 
 	</xacro:macro>

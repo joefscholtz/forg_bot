@@ -42,6 +42,14 @@
     <origin xyz="${0.045/2 + 0.11 - 0.07/2} ${0.18 + 0.2} ${-0.075}" rpy="0 0 0"/>
   </xacro:left_back_arm>
 
+  <xacro:wheel_steering name="left_middle_wheel" parent="left_back_arm">
+    <origin xyz="0 ${-0.045 - 0.1 - 0.14/2} ${-0.075}" rpy="${pi} 0 0"/>
+  </xacro:wheel_steering>
+
+  <xacro:wheel_steering name="left_back_wheel" parent="left_back_arm">
+    <origin xyz="0 ${0.045 + 0.1 + 0.14/2} ${-0.075}" rpy="${pi} 0 0"/>
+  </xacro:wheel_steering>
+
   <xacro:right_middle_arm name="right_middle_arm" parent="base">
     <origin xyz="${-0.255/2 - 0.05} ${0.045-0.225} 0" rpy="0 ${pi/2} 0"/>
   </xacro:right_middle_arm>
@@ -49,6 +57,18 @@
   <xacro:right_front_arm name="right_front_arm" parent="right_middle_arm">
     <origin xyz="${-0.045/2 - 0.11 + 0.07/2} 0 0" rpy="0 0 0"/>
   </xacro:right_front_arm>
+
+  <xacro:wheel_steering name="right_front_wheel" parent="right_front_arm">
+    <origin xyz="0 ${-0.07-0.18-0.015} ${-0.15}" rpy="${pi} 0 0"/>
+  </xacro:wheel_steering>
+
+  <xacro:wheel_steering name="right_middle_wheel" parent="right_back_arm">
+    <origin xyz="0 ${-0.045 - 0.1 - 0.14/2} ${-0.075}" rpy="${pi} 0 0"/>
+  </xacro:wheel_steering>
+
+  <xacro:wheel_steering name="right_back_wheel" parent="right_back_arm">
+    <origin xyz="0 ${0.045 + 0.1 + 0.14/2} ${-0.075}" rpy="${pi} 0 0"/>
+  </xacro:wheel_steering>
 
   <xacro:right_back_arm name="right_back_arm" parent="right_middle_arm">
     <origin xyz="${-0.045/2 - 0.11 + 0.07/2} ${0.18 + 0.2} ${-0.075}" rpy="0 0 0"/>
