@@ -1,6 +1,18 @@
 # Forg Bot
 
-Navigation with [Curiosity Rover](https://science.nasa.gov/mission/msl-curiosity/) inspired holonomic mobile robot in ROS 2. Tested with ROS Humble on Ubuntu 22.04 Jammy Jellyfish.
+Navigation with [Curiosity Rover](https://science.nasa.gov/mission/msl-curiosity/) inspired holonomic mobile robot in ROS 2. Tested with ROS Humble on Ubuntu 22.04 Jammy Jellyfish. This is a meta-package containing the following ROS 2 packages:
+
+- `forg_description`: 3D models and URDFs for the Forg Bot, including simple launchs for visualization with rviz;
+- `holonomic_rover_controller`: Controller implemented with the ros2_control framework to control the steering and traction of the 6 Forg Bot's wheels;
+- `msg_utils`: General purpose nodes for dealing with `geometry_msgs/msg/Twist`, `geometry_msgs/msg/TwistStamped`, `nav_msgs/msg/Odometry` and `tf2_msgs/msg/TFMessage` messages.
+
+For more information about each package, take a look in the corresponding `README.md` file inside the package.
+
+## Preview
+
+Forg Bot model displayed in rviz2:
+
+![Rviz2 display](assets/forg_description-display.png)
 
 ## Install
 
@@ -64,9 +76,9 @@ cd ~/ros2_ws/src/forg_bot/
 
 - [ ] Add license
 - [ ] Maybe it is a good idea to use FreeCAD + ROS 2 integration in the future. Sources:
-    - [FreeCAD ROS Workbench](https://github.com/galou/freecad.cross)
-    - [FreeCAD CAD & ROS Open-Source Synergy (CROSS)](https://github.com/drfenixion/freecad.overcross)
-    - [Freecad to Gazebo Exporter](https://github.com/Dave-Elec/freecad_to_gazebo)
+  - [FreeCAD ROS Workbench](https://github.com/galou/freecad.cross)
+  - [FreeCAD CAD & ROS Open-Source Synergy (CROSS)](https://github.com/drfenixion/freecad.overcross)
+  - [Freecad to Gazebo Exporter](https://github.com/Dave-Elec/freecad_to_gazebo)
 
 ## Special thanks
 
