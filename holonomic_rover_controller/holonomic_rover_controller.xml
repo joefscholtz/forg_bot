@@ -1,0 +1,10 @@
+<library path="holonomic_rover_controller">
+  <class name="holonomic_rover_controller/HolonomicRoverController"
+         type="holonomic_rover_controller::HolonomicRoverController"
+         base_class_type="controller_interface::ChainableControllerInterface">
+  <description>
+    Traction and steering controller for the kinematics of a rover with 6 orientable and tractionable wheels.
+  </description>
+  </class>
+</library>
+

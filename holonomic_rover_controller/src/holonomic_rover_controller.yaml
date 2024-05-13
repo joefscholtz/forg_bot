@@ -1,0 +1,114 @@
+holonomic_rover_controller:
+  rear_wheels_steering_names:
+    {
+      type: string_array,
+      description: "Names of rear wheel steering joints.",
+      read_only: true,
+      validation: { size_lt<>: [5], unique<>: null, not_empty<>: null },
+    }
+
+  middle_wheel_steering_names:
+    {
+      type: string_array,
+      description: "Names of middle wheel steering joints.",
+      read_only: true,
+      validation: { size_lt<>: [5], unique<>: null, not_empty<>: null },
+    }
+
+  front_wheels_steering_names:
+    {
+      type: string_array,
+      description: "Names of front wheel steering joints.",
+      read_only: true,
+      validation: { size_lt<>: [5], unique<>: null, not_empty<>: null },
+    }
+
+  rear_wheels_names:
+    {
+      type: string_array,
+      description: "Names of rear wheel joints.",
+      read_only: true,
+      validation: { size_lt<>: [5], unique<>: null, not_empty<>: null },
+    }
+
+  middle_wheel_names:
+    {
+      type: string_array,
+      description: "Names of middle wheel joints.",
+      read_only: true,
+      validation: { size_lt<>: [5], unique<>: null, not_empty<>: null },
+    }
+
+  front_wheels_names:
+    {
+      type: string_array,
+      description: "Names of front wheel joints.",
+      read_only: true,
+      validation: { size_lt<>: [5], unique<>: null, not_empty<>: null },
+    }
+
+  front_to_middle_wheel_distance:
+    {
+      type: double,
+      default_value: 0.0,
+      description: "Distance between front and middle wheels. For details see: https://en.wikipedia.org/wiki/Wheelbase",
+      read_only: false,
+    }
+
+  middle_to_back_wheel_distance:
+    {
+      type: double,
+      default_value: 0.0,
+      description: "Distance between middle and back wheels. For details see: https://en.wikipedia.org/wiki/Wheelbase",
+      read_only: false,
+    }
+
+  wheel_track:
+    {
+      type: double,
+      default_value: 0.0,
+      description: "wheel track length. For details see: https://en.wikipedia.org/wiki/Axle_track",
+      read_only: false,
+    }
+
+  wheels_radius:
+    {
+      type: double,
+      default_value: 0.0,
+      description: "Wheels radius.",
+      read_only: false,
+    }
+
+  base_frame_id:
+    {
+      type: string,
+      default_value: "base_link",
+      description: "Base frame_id set to value of base_frame_id.",
+      read_only: false,
+    }
+
+  odom_frame_id:
+    {
+      type: string,
+      default_value: "odom",
+      description: "Odometry frame_id set to value of odom_frame_id.",
+      read_only: false,
+    }
+
+  enable_odom_tf:
+    {
+      type: bool,
+      default_value: true,
+      description: "Publishing odom to to tf if true",
+      read_only: false,
+    }
+
+  use_stamped_vel:
+    {
+      type: bool,
+      default_value: false,
+      description:
+        "Choice of vel type, if use_stamped_vel is false then ``geometry_msgs::msg::Twist`` is taken as vel msg type, if
+        use_stamped_vel is true then ``geometry_msgs::msg::TwistStamped`` is taken as vel msg type",
+      read_only: false,
+    }

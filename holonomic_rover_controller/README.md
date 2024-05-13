@@ -12,4 +12,5 @@ Traction and steering ros2_control controller for the kinematics of a rover with
 ## TODO:
 
 - [] Implement the controller;
-- [] Implement odometry.
+- [] Implement odometry;
+- [] Add testing.
