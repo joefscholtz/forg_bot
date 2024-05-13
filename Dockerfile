@@ -6,30 +6,31 @@ USER root
 #Install forg_bot dependencies
 RUN apt-get update \
     && apt-get install -y \
+    # ros-humble-joint-state-broadcaster \
+    # ros-humble-ros2-controllers \
+    # ros-humble-sensor-msgs \
     ros-humble-ament-cmake \
     ros-humble-ament-cmake-ros \
     ros-humble-ament-lint-auto \
     ros-humble-ament-lint-common \
+    ros-humble-control-msgs \
     ros-humble-controller-interface \
-    # ros-humble-generate-parameter-library \
-    # ros-humble-geometry-msgs \
+    ros-humble-controller-manager \
+    ros-humble-gazebo-ros2-control \
+    ros-humble-generate-parameter-library \
+    ros-humble-geometry-msgs \
     ros-humble-hardware-interface \
     ros-humble-joint-state-publisher \
     ros-humble-joint-state-publisher-gui \
+    ros-humble-nav-msgs \
     ros-humble-pluginlib \
     ros-humble-rclcpp \
     ros-humble-rclcpp-lifecycle \
     ros-humble-realtime-tools \
-    # ros-humble-sensor-msgs \
-    # ros-humble-tf2-geometry-msgs \
+    ros-humble-ros2-control \
+    ros-humble-tf2-geometry-msgs \
     ros-humble-tf2-ros \
     ros-humble-xacro \
-    ros-humble-control-msgs \
-    # ros-humble-joint-state-broadcaster \
-    ros-humble-gazebo-ros2-control \
-    ros-humble-ros2-control \
-    ros-humble-controller-manager \
-    # ros-humble-ros2-controllers \
     && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /home/ros
