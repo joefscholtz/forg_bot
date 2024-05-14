@@ -7,7 +7,7 @@
 
 	<xacro:macro name="left_middle_arm" params="name parent *origin">
 
-    <joint name="${name}_shoulder_axis_joint" type="continuous">
+    <joint name="${name}_shoulder_axis_joint" type="fixed">
 			<parent link="${parent}"/>
 			<child link="${name}_shoulder_axis"/>
 			<xacro:insert_block name="origin"/>
