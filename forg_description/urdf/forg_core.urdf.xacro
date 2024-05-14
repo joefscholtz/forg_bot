@@ -11,19 +11,10 @@
   <xacro:include filename="wheel_steering.urdf.xacro"/>
   <xacro:include filename="wheel.urdf.xacro"/>
 
-  <link name="base_footprint"/>
-
-  <joint name="base_footprint_to_base_link_joint" type="fixed">
-    <parent link="base_footprint"/>
-    <child link="base_link"/>
-    <origin xyz="0 0 0.5"/>
-    <axis xyz="1 0 0"/>
-  </joint>
-
   <link name="base_link"/>
 
   <xacro:base name="base" parent="base_link">
-    <origin xyz="0 0 0.5" rpy="0 0 ${pi/2}"/>
+    <origin xyz="0 0 0.355" rpy="0 0 ${pi/2}"/> <!-- wheels touch the ground with z=0.345-->
   </xacro:base>
 
   <!-- Add joints and links to simulation differential-like gears -->

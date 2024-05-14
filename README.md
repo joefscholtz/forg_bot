@@ -79,7 +79,8 @@ cd ~/ros2_ws/src/forg_bot/
   - [FreeCAD ROS Workbench](https://github.com/galou/freecad.cross);
   - [FreeCAD CAD & ROS Open-Source Synergy (CROSS)](https://github.com/drfenixion/freecad.overcross);
   - [Freecad to Gazebo Exporter](https://github.com/Dave-Elec/freecad_to_gazebo).
-- [ ] Set up Ignition.
+- [ ] Set up Ignition;
+- [ ] Publish `base_footprint` frame as being the projection of the `base_link` frame in the ground (I think it is best to do it in the `forg_navigation` package).
 
 ## Special thanks
 
