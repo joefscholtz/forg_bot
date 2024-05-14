@@ -6,8 +6,6 @@ from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration, Command, PathJoinSubstitution
 from launch_ros.actions import Node
 
-# import os.path as osp
-
 
 def generate_launch_description():
 
