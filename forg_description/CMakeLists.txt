@@ -24,7 +24,10 @@ if(BUILD_TESTING)
 endif()
 
 install(
-  DIRECTORY config launch urdf meshes rviz
+  DIRECTORY launch meshes rviz urdf # config
   DESTINATION share/${PROJECT_NAME}
 )
+
+ament_environment_hooks("${CMAKE_CURRENT_SOURCE_DIR}/ament-env-hooks/forg_description_ign_gzclassic_resource_path.dsv.in")
+
 ament_package()
