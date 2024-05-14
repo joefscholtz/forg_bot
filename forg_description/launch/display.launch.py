@@ -13,6 +13,7 @@ def generate_launch_description():
 
     use_sim_time = LaunchConfiguration("use_sim_time")
     publish_robot_state = LaunchConfiguration("publish_robot_state")
+    jsp_gui = LaunchConfiguration("jsp_gui")
     rviz_config = LaunchConfiguration("rviz_config")
 
     robot_state_publisher_launch = IncludeLaunchDescription(
@@ -22,19 +23,19 @@ def generate_launch_description():
         launch_arguments={
             "use_sim_time": use_sim_time,
         }.items(),
-        condition=IfCondition(LaunchConfiguration("publish_robot_state")),
+        condition=IfCondition(publish_robot_state),
     )
 
     joint_state_publisher_node = Node(
         package="joint_state_publisher",
         executable="joint_state_publisher",
-        condition=UnlessCondition(LaunchConfiguration("jsp_gui")),
+        condition=UnlessCondition(jsp_gui),
     )
 
     joint_state_publisher_gui_node = Node(
         package="joint_state_publisher_gui",
         executable="joint_state_publisher_gui",
-        condition=IfCondition(LaunchConfiguration("jsp_gui")),
+        condition=IfCondition(jsp_gui),
     )
 
     rviz_node = Node(
