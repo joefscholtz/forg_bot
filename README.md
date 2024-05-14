@@ -74,11 +74,12 @@ cd ~/ros2_ws/src/forg_bot/
 
 ## TODO
 
-- [ ] Add license
+- [ ] Add license;
 - [ ] Maybe it is a good idea to use FreeCAD + ROS 2 integration in the future. Sources:
-  - [FreeCAD ROS Workbench](https://github.com/galou/freecad.cross)
-  - [FreeCAD CAD & ROS Open-Source Synergy (CROSS)](https://github.com/drfenixion/freecad.overcross)
-  - [Freecad to Gazebo Exporter](https://github.com/Dave-Elec/freecad_to_gazebo)
+  - [FreeCAD ROS Workbench](https://github.com/galou/freecad.cross);
+  - [FreeCAD CAD & ROS Open-Source Synergy (CROSS)](https://github.com/drfenixion/freecad.overcross);
+  - [Freecad to Gazebo Exporter](https://github.com/Dave-Elec/freecad_to_gazebo).
+- [ ] Set up Ignition.
 
 ## Special thanks
 
