@@ -32,16 +32,21 @@ protected:
   // Inherited
   void Reset() override;
 
+  void OnUpdate(const gazebo::common::UpdateInfo &_info);
+
 private:
-  std::string joint_name_, mimic_joint_name_, namespace_;
+  std::string joint_name_, mimic_joint_name_;
 
   double multiplier_, offset_;
 
-  physics::JointPtr joint_, mimic_joint_;
+  gazebo::physics::JointPtr joint_, mimic_joint_;
 
-  physics::ModelPtr model_;
+  gazebo::physics::ModelPtr model_;
 
-  physics::WorldPtr world_;
+  gazebo::physics::WorldPtr world_;
+
+  // Pointer to the update event connection
+  gazebo::event::ConnectionPtr update_connection_;
 };
 
 // Tell Gazebo about this plugin, so that Gazebo can call Load on this plugin.
