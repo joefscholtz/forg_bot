@@ -1,0 +1,2 @@
+prepend-non-duplicate;LD_LIBRARY_PATH;@GAZEBO_PLUGIN_PATH@
+
