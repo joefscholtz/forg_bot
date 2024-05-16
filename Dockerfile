@@ -31,6 +31,7 @@ RUN apt-get update \
     ros-humble-tf2-geometry-msgs \
     ros-humble-tf2-ros \
     ros-humble-xacro \
+    gdb \
     && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /home/ros

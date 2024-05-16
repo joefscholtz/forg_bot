@@ -5,11 +5,21 @@
   <xacro:include filename="left_middle_arm.urdf.xacro"/>
   <xacro:include filename="left_front_arm.urdf.xacro"/>
   <xacro:include filename="left_back_arm.urdf.xacro"/>
+  <xacro:include filename="mimic_joint_plugin_macro.urdf.xacro"/>
   <xacro:include filename="right_middle_arm.urdf.xacro"/>
   <xacro:include filename="right_front_arm.urdf.xacro"/>
   <xacro:include filename="right_back_arm.urdf.xacro"/>
   <xacro:include filename="wheel_steering.urdf.xacro"/>
   <xacro:include filename="wheel.urdf.xacro"/>
+
+  <!-- <link name="world"> -->
+  <!-- </link> -->
+  <!---->
+  <!-- <joint name="world_joint" type="fixed"> -->
+  <!--   <parent link="world"/> -->
+  <!--   <child link="base_link"/> -->
+  <!--   <origin xyz="0 0 0.01"/> -->
+  <!-- </joint> -->
 
   <link name="base_link"/>
 
@@ -36,7 +46,10 @@
     <origin xyz="${0.255/2 + 0.05} ${0.045-0.225} 0"/>
     <axis xyz="1 0 0"/>
     <mimic joint="shoulder_joint" multiplier="1"/>
+    <limit effort="${10}" velocity="${360*2*pi/60}"/> 
+    <dynamics damping="0.1" friction="50"/> <!-- TODO: replace with real properties -->
   </joint>
+  <!-- <xacro:mimic_joint_plugin_gazebo name_prefix="shoulder_left" parent_joint="shoulder_joint" mimic_joint="shoulder_left_joint" multiplier="1.0" /> -->
 
   <link name="shoulder_left">
   </link>
@@ -47,7 +60,10 @@
     <origin xyz="${-0.255/2 - 0.05} ${0.045-0.225} 0"/>
     <axis xyz="1 0 0"/>
     <mimic joint="shoulder_joint" multiplier="-1"/>
+    <limit effort="${10}" velocity="${360*2*pi/60}"/> 
+    <dynamics damping="0.1" friction="50"/> <!-- TODO: replace with real properties -->
   </joint>
+  <xacro:mimic_joint_plugin_gazebo name_prefix="shoulder_right" parent_joint="shoulder_left_joint" mimic_joint="shoulder_right_joint" multiplier="-1.0" debug="false"/>
 
   <link name="shoulder_right">
   </link>

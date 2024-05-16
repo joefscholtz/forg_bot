@@ -18,6 +18,16 @@ void MimicJointPlugin::Load(gazebo::physics::ModelPtr _model,
   }
   world_ = model_->GetWorld();
 
+  debug = _sdf->Get<bool>("debug", false).first;
+
+  if (debug) {
+    auto joints = model_->GetJoints();
+    std::cerr << "\nName of the joints present in the model:" << std::endl;
+    for (const auto &joint : joints) {
+      std::cerr << joint->GetName() << std::endl;
+    }
+  }
+
   joint_name_ = _sdf->Get<std::string>("joint", "joint").first;
   if (!model_->GetJoint(joint_name_)) {
     std::cerr << "\nJoint element " << joint_name_
@@ -40,17 +50,29 @@ void MimicJointPlugin::Load(gazebo::physics::ModelPtr _model,
   multiplier_ = _sdf->Get<double>("multiplier", 1.0).first;
   offset_ = _sdf->Get<double>("offset", 0.0).first;
 
+  std::cout << "MimicJointPlugin starting connection." << std::endl;
+
   // Listen to the update event (broadcast every simulation iteration)
   update_connection_ = gazebo::event::Events::ConnectWorldUpdateBegin(
       std::bind(&MimicJointPlugin::OnUpdate, this, std::placeholders::_1));
+
+  std::cout << "MimicJointPlugin finished loading." << std::endl;
 }
 
 // Inherited
 void MimicJointPlugin::Reset() {}
 
 void MimicJointPlugin::OnUpdate(const gazebo::common::UpdateInfo &_info) {
+  std::lock_guard<std::mutex> scoped_lock(lock_);
+
   auto mimic_angle = joint_->Position(0) * multiplier_ + offset_;
-  mimic_joint_->SetPosition(0, mimic_angle, true);
+
+  if (debug) {
+    std::cerr << "mimic_angle: " << mimic_angle << std::endl;
+  }
+
+  mimic_joint_->SetPosition(0, mimic_angle,
+                            true); // (axis,position, preserve world velocity)
 }
 
 } // namespace gazebo
