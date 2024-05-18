@@ -11,7 +11,6 @@
 #include "holonomic_rover_controller/visibility_control.h"
 #include "holonomic_rover_controller_parameters.hpp"
 
-#include <geometry_msgs/msg/twist.hpp>
 #include <geometry_msgs/msg/twist_stamped.hpp>
 #include <nav_msgs/msg/odometry.hpp>
 #include <tf2_msgs/msg/tf_message.hpp>
@@ -87,10 +86,20 @@ private:
   std::shared_ptr<holonomic_rover_controller::ParamListener> param_listener_;
   holonomic_rover_controller::Params params_;
 
+  std::vector<std::string> rear_wheels_names_, middle_wheels_names_,
+      front_wheels_names_;
+
+  std::vector<std::string> rear_wheels_steering_names_,
+      middle_wheels_steering_names_, front_wheels_steering_names_;
+
+  realtime_tools::RealtimeBuffer<
+      std::shared_ptr<geometry_msgs::msg::TwistStamped>>
+      reference_;
+  rclcpp::Subscription<geometry_msgs::msg::TwistStamped>::SharedPtr
+      reference_subscriber_;
+
   void reference_callback(
       const std::shared_ptr<geometry_msgs::msg::TwistStamped> msg);
-  void reference_callback_unstamped(
-      const std::shared_ptr<geometry_msgs::msg::Twist> msg);
 };
 } // namespace holonomic_rover_controller
 

@@ -5,4 +5,5 @@
 ## TODO
 
 - [ ] Add origin block in inertial macros?
-- [ ] Replace physics values in urdfs
+- [ ] Change "back" to rear;
+- [ ] Replace physics values in urdfs.

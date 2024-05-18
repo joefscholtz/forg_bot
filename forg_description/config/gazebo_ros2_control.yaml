@@ -13,7 +13,7 @@ holonomic_rover_controller:
         "left_back_wheel_steering_gear_joint",
         "right_back_wheel_steering_gear_joint",
       ]
-    middle_wheel_steering_names:
+    middle_wheels_steering_names:
       [
         "left_middle_wheel_steering_gear_joint",
         "right_middle_wheel_steering_gear_joint",
@@ -24,7 +24,7 @@ holonomic_rover_controller:
         "right_front_wheel_steering_gear_joint",
       ]
     rear_wheels_names: ["left_back_wheel_joint", "right_back_wheel_joint"]
-    middle_wheel_names: ["left_middle_wheel_joint", "right_middle_wheel_joint"]
+    middle_wheels_names: ["left_middle_wheel_joint", "right_middle_wheel_joint"]
     front_wheels_names: ["left_front_wheel_joint", "right_front_wheel_joint"]
     front_to_middle_wheel_distance: 0.44
     middle_to_back_wheel_distance: 0.43
@@ -33,4 +33,3 @@ holonomic_rover_controller:
     base_frame_id: "base_link"
     odom_frame_id: "odom"
     enable_odom_tf: True
-    use_stamped_vel: False
