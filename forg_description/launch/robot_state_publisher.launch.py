@@ -22,8 +22,8 @@ def generate_launch_description():
             [
                 "xacro ",
                 str(xacro_file),
-                # " sim_mode:=",
-                # use_sim_time,
+                " simulation:=",
+                use_sim_time,
             ],
         ),
         value_type=str,
