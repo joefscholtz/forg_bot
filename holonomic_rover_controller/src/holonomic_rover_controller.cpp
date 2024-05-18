@@ -6,10 +6,7 @@
 
 namespace holonomic_rover_controller {
 
-HolonomicRoverController::HolonomicRoverController()
-    : controller_interface::ChainableControllerInterface() {}
-
-controller_interface::CallbackReturn HolonomicRoverController::on_init(void) {
+controller_interface::CallbackReturn HolonomicRoverController::on_init() {
   try {
     param_listener_ =
         std::make_shared<holonomic_rover_controller::ParamListener>(get_node());
@@ -59,6 +56,20 @@ HolonomicRoverController::state_interface_configuration(void) const {
   return state_interfaces_config;
 }
 
+std::vector<hardware_interface::CommandInterface>
+HolonomicRoverController::on_export_reference_interfaces(void) {
+
+  std::vector<hardware_interface::CommandInterface> interfaces;
+  // IMPLEMENT!!
+  return interfaces;
+}
+
+bool HolonomicRoverController::on_set_chained_mode(bool chained_mode) {
+
+  // Always accept switch to/from chained mode
+  return true || chained_mode;
+}
+
 controller_interface::return_type
 HolonomicRoverController::update_reference_from_subscribers(void) {
 
@@ -72,15 +83,12 @@ HolonomicRoverController::update_and_write_commands(
   return controller_interface::return_type::OK;
 }
 
-bool HolonomicRoverController::on_set_chained_mode(bool chained_mode) {
-
-  // Always accept switch to/from chained mode
-  return true || chained_mode;
-}
-
 void HolonomicRoverController::reference_callback(
     const std::shared_ptr<geometry_msgs::msg::TwistStamped> msg) {}
 
 void HolonomicRoverController::reference_callback_unstamped(
     const std::shared_ptr<geometry_msgs::msg::Twist> msg) {}
 } // namespace holonomic_rover_controller
+
+PLUGINLIB_EXPORT_CLASS(holonomic_rover_controller::HolonomicRoverController,
+                       controller_interface::ChainableControllerInterface)

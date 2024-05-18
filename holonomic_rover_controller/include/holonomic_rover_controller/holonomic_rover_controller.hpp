@@ -70,8 +70,8 @@ protected:
   // on_export_reference_interfaces from the controller_interface class bc
   // chainable_controller_interface has the final implementation
   //
-  /* std::vector<hardware_interface::CommandInterface> */
-  /* on_export_reference_interfaces(void) override; */
+  std::vector<hardware_interface::CommandInterface>
+  on_export_reference_interfaces(void) override;
 
   bool on_set_chained_mode(bool chained_mode) override;
 
