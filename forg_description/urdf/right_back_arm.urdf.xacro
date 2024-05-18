@@ -25,7 +25,7 @@
 					<mesh filename="package://forg_description/meshes/right_back_arm.dae"/>
 				</geometry>
 			</collision>
-      <xacro:inertial_box mass="0.05" x="0.17" y="0.00625" z="0.8"/> <!-- TODO: replace shoulder axis mass with real value -->
+      <xacro:inertial_box mass="0.05" x="0.17" y="0.00625" z="0.8"/> <!-- TODO replace shoulder axis mass with real value -->
 		</link>
 
 	</xacro:macro>

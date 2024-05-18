@@ -25,7 +25,7 @@
 					<mesh filename="package://forg_description/meshes/spine.dae"/>
 				</geometry>
 			</collision>
-      <xacro:inertial_box mass="5" x="0.17" y="0.17" z="0.17"/> <!-- TODO: replace with real values -->
+      <xacro:inertial_box mass="5" x="0.17" y="0.17" z="0.17"/> <!-- TODO replace with real values -->
 		</link>
 
 	</xacro:macro>

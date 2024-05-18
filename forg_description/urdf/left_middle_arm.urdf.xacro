@@ -25,7 +25,7 @@
 					<mesh filename="package://forg_description/meshes/shoulder_axis.dae"/>
 				</geometry>
 			</collision>
-      <xacro:inertial_cylinder mass="0.05" length="0.17" radius="0.00625"/> <!-- TODO: replace shoulder axis mass with real value -->
+      <xacro:inertial_cylinder mass="0.05" length="0.17" radius="0.00625"/> <!-- TODO replace shoulder axis mass with real value -->
 		</link>
 
     <joint name="${name}_joint" type="fixed">
@@ -46,7 +46,7 @@
 					<mesh filename="package://forg_description/meshes/middle_arm.dae"/>
 				</geometry>
 			</collision>
-      <xacro:inertial_box mass="0.05" x="0.17" y="0.00625" z="0.8"/> <!-- TODO: replace shoulder axis mass with real value -->
+      <xacro:inertial_box mass="0.05" x="0.17" y="0.00625" z="0.8"/> <!-- TODO replace shoulder axis mass with real value -->
 		</link>
 
 	</xacro:macro>

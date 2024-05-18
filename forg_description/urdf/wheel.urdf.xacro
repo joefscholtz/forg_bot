@@ -12,8 +12,8 @@
 			<child link="${name}_axis"/>
 			<xacro:insert_block name="origin"/>
 			<axis xyz="0 0 1"/>
-      <limit effort="${13.3*9.81*2.9}" velocity="${1000*2*pi/60}"/> <!-- TODO: replace with motor limits -->
-			<!--dynamics damping="0.1" friction="1"/--> <!-- TODO: replace with motor + axis properties -->
+      <limit effort="${13.3*9.81*2.9}" velocity="${1000*2*pi/60}"/> <!-- TODO replace with motor limits -->
+			<!--dynamics damping="0.1" friction="1"/--> <!-- TODO replace with motor + axis properties -->
 		</joint>
 
 		<link name="${name}_axis">
@@ -27,7 +27,7 @@
 					<mesh filename="package://forg_description/meshes/wheel_axis.dae"/>
 				</geometry>
 			</collision>
-      <xacro:inertial_cylinder mass="0.05" length="0.17" radius="0.00625"/> <!-- TODO: replace wheel axis mass with real value -->
+      <xacro:inertial_cylinder mass="0.05" length="0.17" radius="0.00625"/> <!-- TODO replace wheel axis mass with real value -->
 		</link>
 
     <joint name="${name}_axis_joint" type="fixed">
@@ -48,7 +48,7 @@
 					<mesh filename="package://forg_description/meshes/wheel.dae"/>
 				</geometry>
 			</collision>
-      <xacro:inertial_cylinder mass="0.2" length="0.015" radius="0.06"/> <!-- TODO: replace wheel mass with real value -->
+      <xacro:inertial_cylinder mass="0.2" length="0.015" radius="0.06"/> <!-- TODO replace wheel mass with real value -->
 		</link>
 
 	</xacro:macro>

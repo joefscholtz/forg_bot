@@ -1,0 +1,36 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 50
+    use_sim_time: True
+
+    # holonomic_rover_controller:
+    #   type: holonomic_rover_controller/HolonomicRoverController
+
+holonomic_rover_controller:
+  ros__parameters:
+    rear_wheels_steering_names:
+      [
+        "left_back_wheel_steering_gear_joint",
+        "right_back_wheel_steering_gear_joint",
+      ]
+    middle_wheel_steering_names:
+      [
+        "left_middle_wheel_steering_gear_joint",
+        "right_middle_wheel_steering_gear_joint",
+      ]
+    front_wheels_steering_names:
+      [
+        "left_front_wheel_steering_gear_joint",
+        "right_front_wheel_steering_gear_joint",
+      ]
+    rear_wheels_names: ["left_back_wheel_joint", "right_back_wheel_joint"]
+    middle_wheel_names: ["left_middle_wheel_joint", "right_middle_wheel_joint"]
+    front_wheels_names: ["left_front_wheel_joint", "right_front_wheel_joint"]
+    front_to_middle_wheel_distance: 0.44
+    middle_to_back_wheel_distance: 0.43
+    wheel_track: 0.27
+    wheels_radius: 0.06
+    base_frame_id: "base_link"
+    odom_frame_id: "odom"
+    enable_odom_tf: True
+    use_stamped_vel: False

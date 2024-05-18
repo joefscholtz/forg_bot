@@ -1,0 +1,93 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" >
+
+	<xacro:arg name="simulation" default="true"/>
+
+  <xacro:if value="$(arg simulation)">
+    <ros2_control name="GazeboSystem" type="system">
+      <hardware>
+        <plugin>gazebo_ros2_control/GazeboSystem</plugin>
+      </hardware>
+      <joint name="left_front_wheel_steering_gear_joint">
+        <command_interface name="position"/>
+        <state_interface name="velocity"/>
+        <state_interface name="position"/>
+        <state_interface name="effort"/>
+      </joint>
+      <joint name="left_middle_wheel_steering_gear_joint">
+        <command_interface name="position"/>
+        <state_interface name="velocity"/>
+        <state_interface name="position"/>
+        <state_interface name="effort"/>
+      </joint>
+      <joint name="left_back_wheel_steering_gear_joint">
+        <command_interface name="position"/>
+        <state_interface name="velocity"/>
+        <state_interface name="position"/>
+        <state_interface name="effort"/>
+      </joint>
+      <joint name="right_front_wheel_steering_gear_joint">
+        <command_interface name="position"/>
+        <state_interface name="velocity"/>
+        <state_interface name="position"/>
+        <state_interface name="effort"/>
+      </joint>
+      <joint name="right_middle_wheel_steering_gear_joint">
+        <command_interface name="position"/>
+        <state_interface name="velocity"/>
+        <state_interface name="position"/>
+        <state_interface name="effort"/>
+      </joint>
+      <joint name="right_back_wheel_steering_gear_joint">
+        <command_interface name="position"/>
+        <state_interface name="velocity"/>
+        <state_interface name="position"/>
+        <state_interface name="effort"/>
+      </joint>
+
+      <joint name="left_front_wheel_joint">
+        <command_interface name="velocity"/>
+        <state_interface name="velocity"/>
+        <state_interface name="position"/>
+        <state_interface name="effort"/>
+      </joint>
+      <joint name="left_middle_wheel_joint">
+        <command_interface name="velocity"/>
+        <state_interface name="velocity"/>
+        <state_interface name="position"/>
+        <state_interface name="effort"/>
+      </joint>
+      <joint name="left_back_wheel_joint">
+        <command_interface name="velocity"/>
+        <state_interface name="velocity"/>
+        <state_interface name="position"/>
+        <state_interface name="effort"/>
+      </joint>
+      <joint name="right_front_wheel_joint">
+        <command_interface name="velocity"/>
+        <state_interface name="velocity"/>
+        <state_interface name="position"/>
+        <state_interface name="effort"/>
+      </joint>
+      <joint name="right_middle_wheel_joint">
+        <command_interface name="velocity"/>
+        <state_interface name="velocity"/>
+        <state_interface name="position"/>
+        <state_interface name="effort"/>
+      </joint>
+      <joint name="right_back_wheel_joint">
+        <command_interface name="velocity"/>
+        <state_interface name="velocity"/>
+        <state_interface name="position"/>
+        <state_interface name="effort"/>
+      </joint>
+    </ros2_control>
+
+    <gazebo>
+      <plugin name="gazebo_ros2_control" filename="libgazebo_ros2_control.so">
+        <parameters>$(find forg_description)/config/gazebo_ros2_control.yaml</parameters>
+      </plugin>
+    </gazebo>
+  </xacro:if>
+
+</robot>

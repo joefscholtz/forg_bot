@@ -25,7 +25,7 @@
 					<mesh filename="package://forg_description/meshes/steering_base.dae"/>
 				</geometry>
 			</collision>
-      <xacro:inertial_box mass="0.05" x="0.17" y="0.00625" z="0.8"/> <!-- TODO: replace shoulder axis mass with real value -->
+      <xacro:inertial_box mass="0.05" x="0.17" y="0.00625" z="0.8"/> <!-- TODO replace shoulder axis mass with real value -->
 		</link>
 
     <joint name="${name}_steering_gear_joint" type="continuous">
@@ -46,7 +46,7 @@
 					<mesh filename="package://forg_description/meshes/steering_gear.dae"/>
 				</geometry>
 			</collision>
-      <xacro:inertial_box mass="0.05" x="0.17" y="0.00625" z="0.8"/> <!-- TODO: replace shoulder axis mass with real value -->
+      <xacro:inertial_box mass="0.05" x="0.17" y="0.00625" z="0.8"/> <!-- TODO replace shoulder axis mass with real value -->
 		</link>
 
     <joint name="${name}_steering_joint" type="fixed">
@@ -67,7 +67,7 @@
 					<mesh filename="package://forg_description/meshes/wheel_steering.dae"/>
 				</geometry>
 			</collision>
-      <xacro:inertial_box mass="0.05" x="0.17" y="0.00625" z="0.8"/> <!-- TODO: replace shoulder axis mass with real value -->
+      <xacro:inertial_box mass="0.05" x="0.17" y="0.00625" z="0.8"/> <!-- TODO replace shoulder axis mass with real value -->
 		</link>
 
   <xacro:wheel name="${name}" parent="${name}_steering">
