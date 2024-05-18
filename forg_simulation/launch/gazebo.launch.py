@@ -19,12 +19,12 @@ def generate_launch_description():
     world = LaunchConfiguration("gazebo_debug")
 
     pose = {
-        "x": LaunchConfiguration("x_pose", default="0.0"),
-        "y": LaunchConfiguration("y_pose", default="0.0"),
-        "z": LaunchConfiguration("z_pose", default="0.0"),
-        "R": LaunchConfiguration("roll", default="0.0"),
-        "P": LaunchConfiguration("pitch", default="0.0"),
-        "Y": LaunchConfiguration("yaw", default="0.0"),
+        "x": LaunchConfiguration("x_pose"),
+        "y": LaunchConfiguration("y_pose"),
+        "z": LaunchConfiguration("z_pose"),
+        "R": LaunchConfiguration("roll"),
+        "P": LaunchConfiguration("pitch"),
+        "Y": LaunchConfiguration("yaw"),
     }
 
     robot_state_publisher_launch = IncludeLaunchDescription(
@@ -104,6 +104,36 @@ def generate_launch_description():
                 "world",
                 default_value="worlds/empty_sky.world",
                 description="Which world to launch in Gazebo",
+            ),
+            DeclareLaunchArgument(
+                "x_pose",
+                default_value="0.0",
+                description="Robot's x coordinate to spawn",
+            ),
+            DeclareLaunchArgument(
+                "y_pose",
+                default_value="0.0",
+                description="Robot's y coordinate to spawn",
+            ),
+            DeclareLaunchArgument(
+                "z_pose",
+                default_value="0.0",
+                description="Robot's z coordinate to spawn",
+            ),
+            DeclareLaunchArgument(
+                "roll",
+                default_value="0.0",
+                description="Robot's roll angle to spawn",
+            ),
+            DeclareLaunchArgument(
+                "pitch",
+                default_value="0.0",
+                description="Robot's pitch angle to spawn",
+            ),
+            DeclareLaunchArgument(
+                "yaw",
+                default_value="0.0",
+                description="Robot's yaw angle to spawn",
             ),
             robot_state_publisher_launch,
             gazebo_launch,
