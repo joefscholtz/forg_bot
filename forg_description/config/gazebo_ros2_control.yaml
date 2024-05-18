@@ -3,8 +3,8 @@ controller_manager:
     update_rate: 50
     use_sim_time: True
 
-    # holonomic_rover_controller:
-    #   type: holonomic_rover_controller/HolonomicRoverController
+    holonomic_rover_controller:
+      type: holonomic_rover_controller/HolonomicRoverController
 
 holonomic_rover_controller:
   ros__parameters:
