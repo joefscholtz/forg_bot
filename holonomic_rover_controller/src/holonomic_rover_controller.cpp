@@ -32,7 +32,7 @@ controller_interface::CallbackReturn HolonomicRoverController::on_init() {
   }
 
   // reference_interfaces_ is declared in the base class
-  reference_interfaces_.resize(2); // TODO: Check if is really 2 in my case
+  reference_interfaces_.resize(3); // vx, vy, wz
   return controller_interface::CallbackReturn::SUCCESS;
 }
 
@@ -130,17 +130,27 @@ HolonomicRoverController::command_interface_configuration(void) const {
 controller_interface::InterfaceConfiguration
 HolonomicRoverController::state_interface_configuration(void) const {
 
-  controller_interface::InterfaceConfiguration state_interfaces_config;
-  // IMPLEMENT!!
-  return state_interfaces_config;
+  controller_interface::InterfaceConfiguration state_interface_configuration;
+  // TODO: implement state interfaces if there are states that need to be
+  // accessed
+  state_interface_configuration.type =
+      controller_interface::interface_configuration_type::NONE;
+  return state_interface_configuration;
 }
 
 std::vector<hardware_interface::CommandInterface>
 HolonomicRoverController::on_export_reference_interfaces(void) {
 
-  std::vector<hardware_interface::CommandInterface> interfaces;
-  // IMPLEMENT!!
-  return interfaces;
+  std::vector<hardware_interface::CommandInterface> reference_interfaces;
+
+  reference_interfaces.push_back(hardware_interface::CommandInterface(
+      get_node()->get_name(), std::string("vx"), &reference_interfaces_[0]));
+  reference_interfaces.push_back(hardware_interface::CommandInterface(
+      get_node()->get_name(), std::string("vy"), &reference_interfaces_[1]));
+  reference_interfaces.push_back(hardware_interface::CommandInterface(
+      get_node()->get_name(), std::string("wz"), &reference_interfaces_[2]));
+
+  return reference_interfaces;
 }
 
 bool HolonomicRoverController::on_set_chained_mode(bool chained_mode) {
@@ -150,7 +160,11 @@ bool HolonomicRoverController::on_set_chained_mode(bool chained_mode) {
 }
 
 controller_interface::return_type
-HolonomicRoverController::update_reference_from_subscribers(void) {
+HolonomicRoverController::update_reference_from_subscribers() {
+
+  // Move functionality to the `update_and_write_commands` because of the
+  // missing arguments in humble - otherwise issues with multiple time-sources
+  // might happen when working with simulators
 
   return controller_interface::return_type::OK;
 }
@@ -159,11 +173,69 @@ controller_interface::return_type
 HolonomicRoverController::update_and_write_commands(
     const rclcpp::Time &time, const rclcpp::Duration &period) {
 
+  if (!is_in_chained_mode()) {
+    auto current_ref = *(reference_.readFromRT());
+    const auto age_of_last_command = time - (current_ref)->header.stamp;
+
+    // send message only if there is no timeout
+    if (age_of_last_command <= ref_timeout_ ||
+        ref_timeout_ == rclcpp::Duration::from_seconds(0.0)) {
+      if (!std::isnan(current_ref->twist.linear.x) &&
+          !std::isnan(current_ref->twist.linear.y) &&
+          !std::isnan(current_ref->twist.angular.z)) {
+
+        reference_interfaces_[0] = current_ref->twist.linear.x;
+        reference_interfaces_[1] = current_ref->twist.linear.y;
+        reference_interfaces_[2] = current_ref->twist.angular.z;
+      }
+    } else {
+      if (!std::isnan(current_ref->twist.linear.x) &&
+          !std::isnan(current_ref->twist.linear.y) &&
+          !std::isnan(current_ref->twist.angular.z)) {
+
+        reference_interfaces_[0] = 0.0;
+        reference_interfaces_[1] = 0.0;
+        reference_interfaces_[2] = 0.0;
+
+        current_ref->twist.linear.x = std::numeric_limits<double>::quiet_NaN();
+        current_ref->twist.linear.y = std::numeric_limits<double>::quiet_NaN();
+        current_ref->twist.angular.z = std::numeric_limits<double>::quiet_NaN();
+      }
+    }
+  }
+  // MOVE ROBOT
+  // TODO: Implement Odometry
+  // TODO: limit velocities
+
   return controller_interface::return_type::OK;
 }
 
 void HolonomicRoverController::reference_callback(
-    const std::shared_ptr<geometry_msgs::msg::TwistStamped> msg) {}
+    const std::shared_ptr<geometry_msgs::msg::TwistStamped> msg) {
+
+  // if no timestamp provided use current time for command timestamp
+  if (msg->header.stamp.sec == 0 && msg->header.stamp.nanosec == 0u) {
+    RCLCPP_WARN(get_node()->get_logger(),
+                "Timestamp in the reference's header is missing, using current "
+                "time as command "
+                "timestamp.");
+    msg->header.stamp = get_node()->now();
+  }
+  const auto age_of_last_command = get_node()->now() - msg->header.stamp;
+
+  if (ref_timeout_ == rclcpp::Duration::from_seconds(0) ||
+      age_of_last_command <= ref_timeout_) {
+    reference_.writeFromNonRT(msg);
+  } else {
+    RCLCPP_ERROR(
+        get_node()->get_logger(),
+        "Received reference message has timestamp %.10f older for %.10f which "
+        "is more then allowed timeout "
+        "(%.4f).",
+        rclcpp::Time(msg->header.stamp).seconds(),
+        age_of_last_command.seconds(), ref_timeout_.seconds());
+  }
+}
 
 } // namespace holonomic_rover_controller
 
