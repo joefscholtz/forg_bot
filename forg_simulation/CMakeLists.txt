@@ -7,6 +7,9 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
+find_package(geometry_msgs REQUIRED)
+find_package(sensor_msgs REQUIRED)
+find_package(rclcpp REQUIRED)
 # uncomment the following section in order to fill in
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
@@ -23,8 +26,21 @@ if(BUILD_TESTING)
   ament_lint_auto_find_test_dependencies()
 endif()
 
+add_executable(holonomic_rover_kinematics src/holonomic_rover_kinematics.cpp)
+ament_target_dependencies(
+  holonomic_rover_kinematics
+  geometry_msgs
+  sensor_msgs
+  rclcpp
+)
+
+install(TARGETS
+  holonomic_rover_kinematics
+  DESTINATION lib/${PROJECT_NAME}
+)
+
 install(
-  DIRECTORY launch config
+  DIRECTORY launch config rviz
   DESTINATION share/${PROJECT_NAME}
 )
 
