@@ -36,7 +36,9 @@ def generate_launch_description():
         package="forg_simulation",
         executable="holonomic_rover_kinematics",
         parameters=[
+            {"front_wheel": "left_front_wheel"},
             {"front_steering_wheel": "left_front_wheel_steering_gear_joint"},
+            {"rear_wheel": "left_back_wheel"},
             {"rear_steering_wheel": "left_back_wheel_steering_gear_joint"},
             # {"twist_input_topic_name": "command_vel"},
         ],

@@ -8,6 +8,7 @@ endif()
 # find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(geometry_msgs REQUIRED)
+find_package(visualization_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(rclcpp REQUIRED)
 # uncomment the following section in order to fill in
@@ -30,6 +31,7 @@ add_executable(holonomic_rover_kinematics src/holonomic_rover_kinematics.cpp)
 ament_target_dependencies(
   holonomic_rover_kinematics
   geometry_msgs
+  visualization_msgs
   sensor_msgs
   rclcpp
 )
