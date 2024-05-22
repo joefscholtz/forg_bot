@@ -35,11 +35,14 @@ def generate_launch_description():
     holonomic_rover_kinematics_node = Node(
         package="forg_simulation",
         executable="holonomic_rover_kinematics",
+        # arguments=["--ros-args", "--log-level", "debug"],
         parameters=[
+            {"debug": True},
             {"front_wheel": "left_front_wheel"},
             {"front_steering_wheel": "left_front_wheel_steering_gear_joint"},
             {"rear_wheel": "left_back_wheel"},
             {"rear_steering_wheel": "left_back_wheel_steering_gear_joint"},
+            {"wheels_distance": 0.44 + 0.43},
             # {"twist_input_topic_name": "command_vel"},
         ],
     )

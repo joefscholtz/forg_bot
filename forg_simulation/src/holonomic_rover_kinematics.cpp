@@ -1,3 +1,5 @@
+#include <chrono>
+#include <cmath>
 #include <memory>
 #include <string>
 
@@ -10,9 +12,14 @@
 #include <visualization_msgs/msg/marker.hpp>
 #include <visualization_msgs/msg/marker_array.hpp>
 
+using namespace std::chrono_literals;
+
 class HolonomicRoverKinematics : public rclcpp::Node {
 public:
   HolonomicRoverKinematics() : Node("holonomic_rover_kinematics") {
+
+    debug = this->declare_parameter<bool>("debug", false);
+
     joint_states_input_topic_name = this->declare_parameter<std::string>(
         "joint_states_input_topic_name", "input_joint_states");
 
@@ -35,6 +42,8 @@ public:
     rear_steering_wheel = this->declare_parameter<std::string>(
         "rear_steering_wheel", "rear_steering_wheel");
 
+    wheels_distance = this->declare_parameter<double>("wheels_distance", 1.0);
+
     joint_states_publisher =
         this->create_publisher<sensor_msgs::msg::JointState>(
             joint_states_output_topic_name, 10);
@@ -53,9 +62,13 @@ public:
     marker_array_publisher =
         this->create_publisher<visualization_msgs::msg::MarkerArray>(
             markers_topic_name, 10);
+
+    timer_ = this->create_wall_timer(
+        1s, std::bind(&HolonomicRoverKinematics::timer_callback, this));
   }
 
 private:
+  bool debug;
   rclcpp::Publisher<sensor_msgs::msg::JointState>::SharedPtr
       joint_states_publisher;
   rclcpp::Subscription<sensor_msgs::msg::JointState>::SharedPtr
@@ -63,6 +76,7 @@ private:
   rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr twist_subscriber;
   rclcpp::Publisher<visualization_msgs::msg::MarkerArray>::SharedPtr
       marker_array_publisher;
+  rclcpp::TimerBase::SharedPtr timer_;
 
   sensor_msgs::msg::JointState joint_states;
 
@@ -71,23 +85,10 @@ private:
 
   std::string front_wheel, front_steering_wheel, rear_wheel,
       rear_steering_wheel;
+  double wheels_distance;
   double deltaF{0}, deltaR{0};
 
-  void joint_states_callback(
-      const std::shared_ptr<sensor_msgs::msg::JointState> msg) {
-
-    joint_states = *msg;
-    for (unsigned int i = 0; i < joint_states.name.size(); i++) {
-      if (joint_states.name[i] == front_steering_wheel) {
-        joint_states.position[i] = deltaF;
-        continue;
-      }
-      if (joint_states.name[i] == rear_steering_wheel) {
-        joint_states.position[i] = deltaR;
-        continue;
-      }
-    }
-    joint_states_publisher->publish(joint_states);
+  void timer_callback() {
 
     visualization_msgs::msg::MarkerArray markers;
     visualization_msgs::msg::Marker marker;
@@ -104,6 +105,7 @@ private:
     marker.color.g = 0.482;
     marker.color.b = 0.714;
     marker.color.a = 1.0;
+    marker.frame_locked = true;
     point.x = 0;
     point.y = 0;
     point.z = 0;
@@ -121,7 +123,55 @@ private:
     marker_array_publisher->publish(markers);
   }
 
-  void twist_callback(const std::shared_ptr<geometry_msgs::msg::Twist> msg) {}
+  void joint_states_callback(
+      const std::shared_ptr<sensor_msgs::msg::JointState> msg) {
+
+    joint_states = *msg;
+    for (unsigned int i = 0; i < joint_states.name.size(); i++) {
+      if (joint_states.name[i] == front_steering_wheel) {
+        joint_states.position[i] = deltaF;
+        continue;
+      }
+      if (joint_states.name[i] == rear_steering_wheel) {
+        joint_states.position[i] = deltaR;
+        continue;
+      }
+    }
+    joint_states_publisher->publish(joint_states);
+  }
+
+  void twist_callback(const std::shared_ptr<geometry_msgs::msg::Twist> msg) {
+    auto twist = *msg;
+
+    auto V =
+        std::fabs(std::pow(twist.linear.x, 2) + std::pow(twist.linear.y, 2));
+    auto angle_v = std::atan2(twist.linear.y, twist.linear.x);
+    auto normal_v = angle_v + M_PI_2;
+    double r = 0;
+    if (twist.angular.z != 0) {
+      r = V / twist.angular.z;
+
+      deltaF = std::atan2(wheels_distance * std::cos(normal_v) - 2 * r,
+                          wheels_distance * std::sin(normal_v));
+    } else {
+      deltaF = angle_v;
+    }
+    deltaR = -deltaF;
+    if (debug) {
+
+      RCLCPP_WARN_STREAM(this->get_logger(),
+                         "holonomic_rover_kinematics debug: \n"
+                             << "twist.x: " << twist.linear.x << "\n"
+                             << "twist.y: " << twist.linear.y << "\n"
+                             << "twist.z: " << twist.angular.z << "\n"
+                             << "V: " << V << "\n"
+                             << "angle_v : " << angle_v * 180 / M_PI << "\n"
+                             << "normal_v : " << normal_v * 180 / M_PI << "\n"
+                             << "r: " << r << "\n"
+                             << "deltaF: " << deltaF << "\n"
+                             << "deltaR: " << deltaR << "\n");
+    }
+  }
 };
 
 int main(int argc, char *argv[]) {
