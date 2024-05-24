@@ -1,3 +1,4 @@
+#include <Eigen/Dense>
 #include <chrono>
 #include <cmath>
 #include <memory>
@@ -8,7 +9,6 @@
 #include <geometry_msgs/msg/point.hpp>
 #include <geometry_msgs/msg/twist.hpp>
 #include <sensor_msgs/msg/joint_state.hpp>
-
 #include <visualization_msgs/msg/marker.hpp>
 #include <visualization_msgs/msg/marker_array.hpp>
 
@@ -143,20 +143,29 @@ private:
   void twist_callback(const std::shared_ptr<geometry_msgs::msg::Twist> msg) {
     auto twist = *msg;
 
+    Eigen::Vector3<double> r_v;
+
     auto V =
         std::fabs(std::pow(twist.linear.x, 2) + std::pow(twist.linear.y, 2));
     auto angle_v = std::atan2(twist.linear.y, twist.linear.x);
     auto normal_v = angle_v + M_PI_2;
     double r = 0;
-    if (twist.angular.z != 0) {
-      r = V / twist.angular.z;
-
-      deltaF = std::atan2(wheels_distance * std::cos(normal_v) - 2 * r,
-                          wheels_distance * std::sin(normal_v));
+    if (false) {
+      deltaF = normal_v;
+      deltaR = -deltaF;
     } else {
-      deltaF = angle_v;
+      if (twist.angular.z != 0) {
+        r = V / twist.angular.z;
+
+        deltaF =
+            std::atan2(wheels_distance - 2 * r * std::cos(normal_v), 2 * r);
+        deltaR =
+            std::atan2(-wheels_distance - 2 * r * std::cos(normal_v), 2 * r);
+      } else {
+        deltaF = angle_v;
+        deltaR = -deltaF;
+      }
     }
-    deltaR = -deltaF;
     if (debug) {
 
       RCLCPP_WARN_STREAM(this->get_logger(),
@@ -168,8 +177,8 @@ private:
                              << "angle_v : " << angle_v * 180 / M_PI << "\n"
                              << "normal_v : " << normal_v * 180 / M_PI << "\n"
                              << "r: " << r << "\n"
-                             << "deltaF: " << deltaF << "\n"
-                             << "deltaR: " << deltaR << "\n");
+                             << "deltaF: " << deltaF * 180 / M_PI << "\n"
+                             << "deltaR: " << deltaR * 180 / M_PI << "\n");
     }
   }
 };

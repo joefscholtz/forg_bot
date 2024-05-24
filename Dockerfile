@@ -32,6 +32,8 @@ RUN apt-get update \
     ros-humble-tf2-ros \
     ros-humble-xacro \
     gdb \
+    libeigen3-dev \
+    ros-humble-eigen3-cmake-module \
     && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /home/ros

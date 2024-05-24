@@ -32,7 +32,7 @@
 			<parent link="${name}_base"/>
 			<child link="${name}_steering_gear"/>
       <origin xyz="0 0 ${0.15/2 - 0.005}"/>
-      <axis xyz="0 0 1"/>
+      <axis xyz="0 0 -1"/>
 		</joint>
 
     <link name="${name}_steering_gear">
