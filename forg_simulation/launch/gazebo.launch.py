@@ -78,6 +78,12 @@ def generate_launch_description():
         output="screen",
     )
 
+    controller_spawner = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["holonomic_rover_controller"],
+    )
+
     return LaunchDescription(
         [
             DeclareLaunchArgument(
@@ -138,5 +144,6 @@ def generate_launch_description():
             robot_state_publisher_launch,
             gazebo_launch,
             spawn_entity_node,
+            controller_spawner,
         ]
     )

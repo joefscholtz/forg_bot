@@ -13,7 +13,8 @@
 			<xacro:insert_block name="origin"/>
 			<axis xyz="0 0 1"/>
       <limit effort="${13.3*9.81*2.9}" velocity="${1000*2*pi/60}"/> <!-- TODO replace with motor limits -->
-			<!--dynamics damping="0.1" friction="1"/--> <!-- TODO replace with motor + axis properties -->
+      <!-- <dynamics damping="0.1" friction="1"/> -->
+      <!-- TODO replace with motor + axis properties-->
 		</joint>
 
 		<link name="${name}_axis">

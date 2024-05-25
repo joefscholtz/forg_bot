@@ -7,11 +7,10 @@
 
 	<xacro:macro name="left_front_arm" params="name parent *origin">
 
-    <joint name="${name}_joint" type="continuous">
+    <joint name="${name}_joint" type="fixed">
 			<parent link="${parent}"/>
 			<child link="${name}"/>
       <xacro:insert_block name="origin"/>
-			<axis xyz="1 0 0"/>
 		</joint>
 
     <link name="${name}">

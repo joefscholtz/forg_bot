@@ -18,6 +18,8 @@ find_package(rclcpp REQUIRED)
 find_package(rclcpp_lifecycle REQUIRED)
 find_package(realtime_tools REQUIRED)
 find_package(tf2_msgs REQUIRED)
+find_package(eigen3_cmake_module REQUIRED)
+find_package(Eigen3 REQUIRED)
 
 generate_parameter_library(holonomic_rover_controller_parameters
   src/holonomic_rover_controller.yaml
@@ -50,6 +52,7 @@ ament_target_dependencies(
   "rclcpp_lifecycle"
   "realtime_tools"
   "tf2_msgs"
+  "Eigen3"
 )
 
 # Causes the visibility macros to use dllexport rather than dllimport,
@@ -123,6 +126,8 @@ ament_export_dependencies(
   "rclcpp_lifecycle"
   "realtime_tools"
   "tf2_msgs"
+  "Eigen3"
+  "eigen3_cmake_module"
 )
 
 ament_package()

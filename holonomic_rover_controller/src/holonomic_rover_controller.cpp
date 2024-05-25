@@ -1,3 +1,6 @@
+#include <Eigen/Core>
+#include <Eigen/Dense>
+#include <Eigen/Geometry>
 #include <limits>
 
 #include <pluginlib/class_list_macros.hpp>
@@ -19,6 +22,8 @@ void reset_controller_reference_msg(
 }
 
 namespace holonomic_rover_controller {
+
+HolonomicRoverController::HolonomicRoverController() {}
 
 controller_interface::CallbackReturn HolonomicRoverController::on_init() {
   try {
@@ -204,9 +209,112 @@ HolonomicRoverController::update_and_write_commands(
     }
   }
   // MOVE ROBOT
+
+  Eigen::Vector3d lf;
+  lf(0) = -params_.front_to_middle_wheel_distance;
+  lf(1) = 0;
+  lf(2) = 0;
+
+  Eigen::Vector3d lm;
+  lm(0) = -params_.middle_to_base_link_distance;
+  lm(1) = 0;
+  lm(2) = 0;
+
+  Eigen::Vector3d lr;
+  lr(0) = params_.middle_to_back_wheel_distance;
+  lr(1) = 0;
+  lr(2) = 0;
+
+  Eigen::Vector3d w;
+  w(0) = 0;
+  w(1) = -params_.wheel_track / 2.0;
+  w(2) = 0;
+
+  Eigen::Vector3d v;
+  v(0) = reference_interfaces_[0];
+  v(1) = reference_interfaces_[1];
+  v(2) = 0;
+
+  Eigen::Vector3d omega;
+  omega(0) = 0;
+  omega(1) = 0;
+  omega(2) = reference_interfaces_[2];
+
+  Eigen::Vector3d r;
+  Eigen::Vector3d left_rf, left_rm, left_rr;
+  Eigen::Vector3d right_rf, right_rm, right_rr;
+
+  double delta_lf{0}, delta_lm{0}, delta_lr{0};
+  double delta_rf{0}, delta_rm{0}, delta_rr{0};
+
+  double v_lf{0}, v_lm{0}, v_lr{0};
+  double v_rf{0}, v_rm{0}, v_rr{0};
+
+  if (v.squaredNorm() != 0 || omega.squaredNorm() != 0) {
+    if (omega.squaredNorm() != 0) {
+      r = omega.cross(v) / (omega.squaredNorm());
+      left_rf = r + w + lm + lf;
+      left_rm = r + w + lm;
+      left_rr = r + w + lm + lr;
+
+      right_rf = r - w + lm + lf;
+
+      right_rm = r - w + lm;
+      right_rr = r - w + lm + lr;
+    } else {
+      omega(0) = 0;
+      omega(1) = 0;
+      omega(2) = 1;
+      r = omega.cross(v);
+      left_rf = r;
+      left_rm = r;
+      left_rr = r;
+
+      right_rf = r;
+      right_rm = r;
+      right_rr = r;
+    }
+    v_lf = left_rf.norm() * omega.norm();
+    v_lm = left_rm.norm() * omega.norm();
+    v_lr = left_rr.norm() * omega.norm();
+
+    v_rf = right_rf.norm() * omega.norm();
+    v_rm = right_rm.norm() * omega.norm();
+    v_rr = right_rr.norm() * omega.norm();
+
+    delta_lf = std::atan2(left_rf(1), left_rf(0)) - M_PI_2;
+    delta_lm = std::atan2(left_rm(1), left_rm(0)) - M_PI_2;
+    delta_lr = std::atan2(left_rr(1), left_rr(0)) - M_PI_2;
+
+    delta_rf = std::atan2(right_rf(1), right_rf(0)) - M_PI_2;
+    delta_rm = std::atan2(right_rm(1), right_rm(0)) - M_PI_2;
+    delta_rr = std::atan2(right_rr(1), right_rr(0)) - M_PI_2;
+  }
+
+  // wheels velocities
+  // rear
+  command_interfaces_[0].set_value(v_lr);
+  command_interfaces_[1].set_value(v_rr);
+  // middle
+  command_interfaces_[2].set_value(v_lm);
+  command_interfaces_[3].set_value(v_rm);
+  // front
+  command_interfaces_[4].set_value(v_lf);
+  command_interfaces_[5].set_value(v_rf);
+
+  // wheels steering
+  // rear
+  command_interfaces_[6].set_value(delta_lr);
+  command_interfaces_[7].set_value(delta_rr);
+  // middle
+  command_interfaces_[8].set_value(delta_lm);
+  command_interfaces_[9].set_value(delta_rm);
+  // front
+  command_interfaces_[10].set_value(delta_lf);
+  command_interfaces_[11].set_value(delta_rf);
+
   // TODO: Implement Odometry
   // TODO: limit velocities
-
   return controller_interface::return_type::OK;
 }
 
