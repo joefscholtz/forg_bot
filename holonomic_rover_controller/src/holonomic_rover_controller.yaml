@@ -55,6 +55,14 @@ holonomic_rover_controller:
       read_only: false,
     }
 
+  middle_to_base_link_distance:
+    {
+      type: double,
+      default_value: 0.0,
+      description: "Distance in x (base_link frame) between middle wheel and base_link.",
+      read_only: false,
+    }
+
   middle_to_back_wheel_distance:
     {
       type: double,
