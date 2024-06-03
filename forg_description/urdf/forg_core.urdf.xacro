@@ -63,7 +63,7 @@
     <limit effort="${10}" velocity="${360*2*pi/60}"/> 
     <dynamics damping="0.1" friction="50"/> <!-- TODO replace with real properties -->
   </joint>
-  <!-- <xacro:mimic_joint_plugin_gazebo name_prefix="shoulder_right" parent_joint="shoulder_left_joint" mimic_joint="shoulder_right_joint" multiplier="-1.0" debug="false"/> -->
+  <xacro:mimic_joint_plugin_gazebo name_prefix="shoulder_right" parent_joint="shoulder_left_joint" mimic_joint="shoulder_right_joint" multiplier="-1.0" debug="false" use_pid="true" kp="100.0" ki="100.0" kd="100.0"/>
 
   <link name="shoulder_right">
   </link>

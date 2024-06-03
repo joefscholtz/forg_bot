@@ -6,6 +6,7 @@
 #include <string>
 
 #include <gazebo/common/Plugin.hh>
+#include <gazebo/physics/JointController.hh>
 #include <gazebo/physics/physics.hh>
 #include <sdf/sdf.hh>
 
@@ -36,9 +37,9 @@ protected:
   void OnUpdate(const gazebo::common::UpdateInfo &_info);
 
 private:
-  bool debug;
+  bool debug, use_pid;
 
-  std::string joint_name_, mimic_joint_name_;
+  std::string joint_name_, mimic_joint_name_, mimic_joint_scoped_name;
 
   double multiplier_, offset_;
 
@@ -50,6 +51,13 @@ private:
 
   // Pointer to the update event connection
   gazebo::event::ConnectionPtr update_connection_;
+
+  gazebo::common::Time last_update_time_;
+
+  double update_period_; // in seconds
+
+  physics::JointControllerPtr jointController;
+  double kp, ki, kd;
 
   /// Protect variables accessed on callbacks.
   std::mutex lock_;

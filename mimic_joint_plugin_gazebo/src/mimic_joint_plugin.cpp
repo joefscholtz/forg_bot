@@ -50,6 +50,19 @@ void MimicJointPlugin::Load(gazebo::physics::ModelPtr _model,
   multiplier_ = _sdf->Get<double>("multiplier", 1.0).first;
   offset_ = _sdf->Get<double>("offset", 0.0).first;
 
+  update_period_ = _sdf->Get<double>("update_period", 0.1).first;
+
+  use_pid = _sdf->Get<bool>("use_pid", false).first;
+  kp = _sdf->Get<double>("kp", 100.0).first;
+  ki = _sdf->Get<double>("ki", 100.0).first;
+  kd = _sdf->Get<double>("kd", 100.0).first;
+
+  jointController.reset(new physics::JointController(model_));
+  jointController->AddJoint(mimic_joint_);
+  mimic_joint_scoped_name = mimic_joint_->GetScopedName();
+  jointController->SetVelocityPID(mimic_joint_scoped_name,
+                                  common::PID(kp, ki, kd));
+
   std::cout << "MimicJointPlugin starting connection." << std::endl;
 
   // Listen to the update event (broadcast every simulation iteration)
@@ -65,14 +78,27 @@ void MimicJointPlugin::Reset() {}
 void MimicJointPlugin::OnUpdate(const gazebo::common::UpdateInfo &_info) {
   std::lock_guard<std::mutex> scoped_lock(lock_);
 
+  double seconds_since_last_update =
+      (_info.simTime - last_update_time_).Double();
+
+  if (seconds_since_last_update < update_period_) {
+    return;
+  }
+
   auto mimic_angle = joint_->Position(0) * multiplier_ + offset_;
 
   if (debug) {
-    std::cerr << "mimic_angle: " << mimic_angle << std::endl;
+    std::cerr << "target mimic_angle: " << mimic_angle << std::endl;
   }
 
-  mimic_joint_->SetPosition(0, mimic_angle,
-                            true); // (axis,position, preserve world velocity)
+  if (use_pid) {
+    jointController->SetPositionTarget(mimic_joint_scoped_name, mimic_angle);
+  } else {
+    mimic_joint_->SetPosition(0, mimic_angle,
+                              true); // (axis,position, preserve world velocity)
+  }
+
+  last_update_time_ = _info.simTime;
 }
 
 } // namespace gazebo
