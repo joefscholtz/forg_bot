@@ -17,7 +17,8 @@ build-image args="--progress='auto'": down
   docker compose {{args}} -f docker-compose.local.yml build;
 
 
-# build: down && down
+build: down && down
+  @echo "Not implemented"
 #   docker compose -f docker-compose.local.yml run --rm --name {{container_name}} {{docker-compose-service}} bash ./scripts/build.sh
 
 CHANGED_FILES := `git diff --name-only origin/develop...HEAD | tr '\n' ' '`
