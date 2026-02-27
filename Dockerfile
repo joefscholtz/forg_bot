@@ -1,39 +1,38 @@
-FROM ros2_docker:base AS forg_bot_base
-FROM ros2_docker:dev AS forg_bot_dev
+FROM ros2_docker:dev AS forg_bot
 
 USER root
 
 #Install forg_bot dependencies
 RUN apt-get update \
     && apt-get install -y \
-    # ros-humble-joint-state-broadcaster \
-    # ros-humble-ros2-controllers \
-    # ros-humble-sensor-msgs \
-    ros-humble-ament-cmake \
-    ros-humble-ament-cmake-ros \
-    ros-humble-ament-lint-auto \
-    ros-humble-ament-lint-common \
-    ros-humble-control-msgs \
-    ros-humble-controller-interface \
-    ros-humble-controller-manager \
-    ros-humble-gazebo-ros2-control \
-    ros-humble-generate-parameter-library \
-    ros-humble-geometry-msgs \
-    ros-humble-hardware-interface \
-    ros-humble-joint-state-publisher \
-    ros-humble-joint-state-publisher-gui \
-    ros-humble-nav-msgs \
-    ros-humble-pluginlib \
-    ros-humble-rclcpp \
-    ros-humble-rclcpp-lifecycle \
-    ros-humble-realtime-tools \
-    ros-humble-ros2-control \
-    ros-humble-tf2-geometry-msgs \
-    ros-humble-tf2-ros \
-    ros-humble-xacro \
+    # ros-jazzy-joint-state-broadcaster \
+    # ros-jazzy-ros2-controllers \
+    # ros-jazzy-sensor-msgs \
+    ros-jazzy-ament-cmake \
+    ros-jazzy-ament-cmake-ros \
+    ros-jazzy-ament-lint-auto \
+    ros-jazzy-ament-lint-common \
+    ros-jazzy-control-msgs \
+    ros-jazzy-controller-interface \
+    ros-jazzy-controller-manager \
+    ros-jazzy-gazebo-ros2-control \
+    ros-jazzy-generate-parameter-library \
+    ros-jazzy-geometry-msgs \
+    ros-jazzy-hardware-interface \
+    ros-jazzy-joint-state-publisher \
+    ros-jazzy-joint-state-publisher-gui \
+    ros-jazzy-nav-msgs \
+    ros-jazzy-pluginlib \
+    ros-jazzy-rclcpp \
+    ros-jazzy-rclcpp-lifecycle \
+    ros-jazzy-realtime-tools \
+    ros-jazzy-ros2-control \
+    ros-jazzy-tf2-geometry-msgs \
+    ros-jazzy-tf2-ros \
+    ros-jazzy-xacro \
     gdb \
     libeigen3-dev \
-    ros-humble-eigen3-cmake-module \
+    ros-jazzy-eigen3-cmake-module \
     && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /home/ros

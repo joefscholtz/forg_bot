@@ -1,0 +1,12 @@
+services:
+    forg_bot_app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        image: forg_bot:latest
+        volumes:
+            - .:/workspace:z
+            - /dev:/dev
+        working_dir: /workspace
+        device_cgroup_rules:
+            - "c 188:* rwm" # USB serial devices /dev/ttyUSB* (major=188)
