@@ -25,7 +25,7 @@ services:
       # Auth: Allow the 'ros' user to authenticate with your XWayland server
       - ${XAUTHORITY:-$HOME/.Xauthority}:/home/ros/.Xauthority:rw
       - /dev:/dev
-      - ..:/workspace:z
+      - ../..:/workspace:z
     user: ros
     hostname: forg_bot
     working_dir: /workspace

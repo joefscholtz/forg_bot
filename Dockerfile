@@ -38,5 +38,10 @@ RUN apt-get update \
 
 RUN git config --global --add safe.directory /workspace
 
+COPY .zshrc /home/ros/.zshrc_append
+
+RUN echo "\n" >> .zshrc && \cat .zshrc_append >> .zshrc \
+    && rm .zshrc_append
+
 CMD ["zsh"]
 USER ros

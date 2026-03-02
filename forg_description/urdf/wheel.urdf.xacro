@@ -3,8 +3,6 @@
 
   <xacro:include filename="inertial_macros.urdf.xacro"/>
 
-	<xacro:arg name="ignition" default="false"/>
-
 	<xacro:macro name="wheel" params="name parent *origin">
 
     <joint name="${name}_joint" type="continuous">

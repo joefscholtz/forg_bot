@@ -20,6 +20,7 @@ build-image args="--progress='auto'": down
 
 build: down && down
   @echo "Not implemented"
+  cd ../.. && colcon build --symlink-install
 #   docker compose -f docker-compose.local.yml run --rm --name {{container_name}} {{docker-compose-service}} bash ./scripts/build.sh
 
 CHANGED_FILES := `git diff --name-only origin/develop...HEAD | tr '\n' ' '`
