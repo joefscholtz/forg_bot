@@ -16,7 +16,7 @@ def generate_launch_description():
     publish_robot_state = LaunchConfiguration("publish_robot_state")
     gazebo_verbose = LaunchConfiguration("gazebo_verbose")
     gazebo_debug = LaunchConfiguration("gazebo_debug")
-    world = LaunchConfiguration("gazebo_debug")
+    world = LaunchConfiguration("world")
 
     pose = {
         "x": LaunchConfiguration("x_pose"),
@@ -39,28 +39,28 @@ def generate_launch_description():
 
     gazebo_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
-            [str(get_package_share_path("gazebo_ros") / "launch" / "gazebo.launch.py")]
+            [str(get_package_share_path("ros_gz_sim") / "launch" / "gz_sim.launch.py")]
         ),
         launch_arguments={
-            # "extra_gazebo_args": "--ros-args --params-file "
+            # https://github.com/ros-controls/gz_ros2_control/issues/340
+            "gz_args": ["-r -v4 ", world, " --physics-engine gz-physics-bullet-featherstone-plugin"],
             # + str(forg_description / "config" / "gazebo.yaml")
-            "pause": "true",
+            "on_exit_shutdown": "true",
             "params_file": str(forg_simulation / "config" / "gazebo.yaml"),
             "use_sim_time": use_sim_time,
             "verbose": gazebo_verbose,
             "debug": gazebo_debug,
-            "world": world,
         }.items(),
     )
 
     spawn_entity_node = Node(
-        package="gazebo_ros",
-        executable="spawn_entity.py",
+        package="ros_gz_sim",
+        executable="create",
         name="forg_bot_spawner",
         arguments=[
             "-topic",
             "robot_description",
-            "-entity",
+            "-name",
             "forg_bot",
             "-x",
             pose["x"],
@@ -108,7 +108,7 @@ def generate_launch_description():
             ),
             DeclareLaunchArgument(
                 "world",
-                default_value="worlds/empty_sky.world",
+                default_value=str(forg_simulation / "worlds" / "empty.world"),
                 description="Which world to launch in Gazebo",
             ),
             DeclareLaunchArgument(
@@ -123,7 +123,7 @@ def generate_launch_description():
             ),
             DeclareLaunchArgument(
                 "z_pose",
-                default_value="0.0",
+                default_value="0.09",
                 description="Robot's z coordinate to spawn",
             ),
             DeclareLaunchArgument(
