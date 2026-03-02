@@ -14,6 +14,7 @@ install:
 
 build-image args="--progress='auto'": down
   @echo "Use 'just build-image --progress=\"plain\"' for more information. Options: auto (default), tty, plain, json, quiet"
+  cd ros2_docker && docker compose {{args}} -f docker-compose.local.yml build;
   docker compose {{args}} -f docker-compose.local.yml build;
 
 
