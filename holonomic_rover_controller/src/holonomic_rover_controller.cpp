@@ -165,19 +165,8 @@ bool HolonomicRoverController::on_set_chained_mode(bool chained_mode) {
 }
 
 controller_interface::return_type
-HolonomicRoverController::update_reference_from_subscribers() {
-
-  // Move functionality to the `update_and_write_commands` because of the
-  // missing arguments in humble - otherwise issues with multiple time-sources
-  // might happen when working with simulators
-
-  return controller_interface::return_type::OK;
-}
-
-controller_interface::return_type
-HolonomicRoverController::update_and_write_commands(
-    const rclcpp::Time &time, const rclcpp::Duration &period) {
-
+HolonomicRoverController::update_reference_from_subscribers(const rclcpp::Time &time,
+                                     const rclcpp::Duration &period) {
   if (!is_in_chained_mode()) {
     auto current_ref = *(reference_.readFromRT());
     const auto age_of_last_command = time - (current_ref)->header.stamp;
@@ -208,7 +197,13 @@ HolonomicRoverController::update_and_write_commands(
       }
     }
   }
-  // MOVE ROBOT
+
+  return controller_interface::return_type::OK;
+}
+
+controller_interface::return_type
+HolonomicRoverController::update_and_write_commands(
+    const rclcpp::Time &time, const rclcpp::Duration &period) {
 
   Eigen::Vector3d lf;
   lf(0) = -params_.front_to_middle_wheel_distance;
