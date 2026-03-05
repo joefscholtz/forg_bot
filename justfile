@@ -1,6 +1,7 @@
 alias i:= install
 alias bi:= build-image
 alias b:= build
+alias r:= run
 alias e:= enter
 
 container_name:='forg_bot'
@@ -29,8 +30,11 @@ CHANGED_FILES := `git diff --name-only origin/develop...HEAD | tr '\n' ' '`
 #   echo "Only linting these files: {{files}}"
 #   docker compose -f docker-compose.local.yml run --rm --name {{container_name}} {{docker-compose-service}} bash -c "./scripts/lint-cpp.sh {{files}}"
 
-enter: down && down
+run: down && down
   docker compose -f docker-compose.local.yml run -it --rm --name {{container_name}} {{docker-compose-service}} zsh
+
+enter:
+  docker exec -it {{container_name}} zsh
 
 down:
   docker stop {{container_name}} || true

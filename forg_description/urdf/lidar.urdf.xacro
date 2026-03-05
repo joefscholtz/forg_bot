@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" >
+  <xacro:include filename="inertial_macros.urdf.xacro"/>
 
 	<xacro:macro name="lidar" params="name parent scan_topic:=scan *origin">
     <joint name="${name}_joint" type="fixed">
@@ -27,9 +28,7 @@
           <cylinder radius="0.05" length="0.04"/>
         </geometry>
       </collision>
-      <xacro:inertial_cylinder mass="0.1" length="0.04" radius="0.05">
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-      </xacro:inertial_cylinder>
+      <xacro:inertial_cylinder mass="0.1" length="0.04" radius="0.05"/>
     </link>
 
     <gazebo reference="${name}">
