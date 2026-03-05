@@ -13,6 +13,7 @@ def generate_launch_description():
     forg_simulation = get_package_share_path("forg_simulation")
 
     use_sim_time = LaunchConfiguration("use_sim_time")
+    gz_bridge_params = LaunchConfiguration("gz_bridge_params")
     publish_robot_state = LaunchConfiguration("publish_robot_state")
     gazebo_verbose = LaunchConfiguration("gazebo_verbose")
     gazebo_debug = LaunchConfiguration("gazebo_debug")
@@ -46,7 +47,6 @@ def generate_launch_description():
             "gz_args": ["-r -v4 ", world, " --physics-engine gz-physics-bullet-featherstone-plugin"],
             # + str(forg_description / "config" / "gazebo.yaml")
             "on_exit_shutdown": "true",
-            "params_file": str(forg_simulation / "config" / "gazebo.yaml"),
             "use_sim_time": use_sim_time,
             "verbose": gazebo_verbose,
             "debug": gazebo_debug,
@@ -109,6 +109,11 @@ def generate_launch_description():
             DeclareLaunchArgument(
                 "world",
                 default_value=str(forg_simulation / "worlds" / "empty.world"),
+                description="Which world to launch in Gazebo",
+            ),
+            DeclareLaunchArgument(
+                "gz_bridge_params",
+                default_value=str(forg_simulation / "config" / "gz_bridge.yaml"),
                 description="Which world to launch in Gazebo",
             ),
             DeclareLaunchArgument(
