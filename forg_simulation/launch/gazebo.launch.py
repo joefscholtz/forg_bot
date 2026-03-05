@@ -84,6 +84,16 @@ def generate_launch_description():
         arguments=["holonomic_rover_controller"],
     )
 
+    ros_gz_bridge = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            [str(get_package_share_path("ros_gz_bridge") / "launch" / "ros_gz_bridge.launch.py")]
+        ),
+        launch_arguments={
+            "bridge_name": "ros_gz_bridge",
+            "config_file": gz_bridge_params,
+        }.items(),
+    )
+
     return LaunchDescription(
         [
             DeclareLaunchArgument(
@@ -114,7 +124,7 @@ def generate_launch_description():
             DeclareLaunchArgument(
                 "gz_bridge_params",
                 default_value=str(forg_simulation / "config" / "gz_bridge.yaml"),
-                description="Which world to launch in Gazebo",
+                description="ros_gz_bridge parameters file path as string",
             ),
             DeclareLaunchArgument(
                 "x_pose",
@@ -150,5 +160,6 @@ def generate_launch_description():
             gazebo_launch,
             spawn_entity_node,
             controller_spawner,
+            ros_gz_bridge,
         ]
     )
