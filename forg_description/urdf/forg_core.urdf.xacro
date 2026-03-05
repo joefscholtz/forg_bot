@@ -30,16 +30,6 @@
   <!-- Add joints and links to simulation differential-like gears -->
   <!-- This is made in order to make the rotation of the shoulders to be the oposite to one another-->
 
-  <joint name="shoulder_joint" type="continuous">
-    <parent link="base"/>
-    <child link="shoulder"/>
-    <origin xyz="0 ${-0.225} 0"/>
-    <axis xyz="0 1 0"/>
-  </joint>
-
-  <link name="shoulder">
-  </link>
-
   <joint name="shoulder_left_joint" type="continuous">
     <mimic joint="shoulder_right_joint" multiplier="-1"/>
     <parent link="base"/>
