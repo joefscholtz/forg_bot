@@ -10,7 +10,7 @@ services:
     image: forg_bot:latest
     environment:
       - WAYLAND_DISPLAY=wayland-0
-      - XDG_RUNTIME_DIR=/run/user/222
+      - XDG_RUNTIME_DIR=/run/user/${USER_UID:-1000}
       - DISPLAY=${DISPLAY}
       - QT_QPA_PLATFORM=wayland;xcb
       - LIBGL_ALWAYS_SOFTWARE=1 
@@ -19,7 +19,7 @@ services:
       - XAUTHORITY=/home/ros/.Xauthority
     volumes:
       # Wayland: Mount the socket into the expected runtime dir inside the container
-      - ${XDG_RUNTIME_DIR}/wayland-0:/run/user/222/wayland-0
+      - ${XDG_RUNTIME_DIR}/wayland-0:/run/user/${USER_UID:-1000}/wayland-0
       # X11: Fallback
       - /tmp/.X11-unix:/tmp/.X11-unix
       # Auth: Allow the 'ros' user to authenticate with your XWayland server
