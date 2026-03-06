@@ -3,8 +3,6 @@
 
   <xacro:include filename="inertial_macros.urdf.xacro"/>
 
-	<xacro:arg name="ignition" default="false"/>
-
 	<xacro:macro name="wheel" params="name parent *origin">
 
     <joint name="${name}_joint" type="continuous">
@@ -46,7 +44,8 @@
 			</visual>
 			<collision>
 				<geometry>
-					<mesh filename="package://forg_description/meshes/wheel.dae"/>
+					<!-- <mesh filename="package://forg_description/meshes/wheel.dae"/> -->
+          <sphere radius="0.06"/>
 				</geometry>
 			</collision>
       <xacro:inertial_cylinder mass="0.2" length="0.015" radius="0.06"/> <!-- TODO replace wheel mass with real value -->

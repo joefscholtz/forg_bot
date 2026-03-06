@@ -13,10 +13,11 @@ def generate_launch_description():
     forg_simulation = get_package_share_path("forg_simulation")
 
     use_sim_time = LaunchConfiguration("use_sim_time")
+    gz_bridge_params = LaunchConfiguration("gz_bridge_params")
     publish_robot_state = LaunchConfiguration("publish_robot_state")
     gazebo_verbose = LaunchConfiguration("gazebo_verbose")
     gazebo_debug = LaunchConfiguration("gazebo_debug")
-    world = LaunchConfiguration("gazebo_debug")
+    world = LaunchConfiguration("world")
 
     pose = {
         "x": LaunchConfiguration("x_pose"),
@@ -39,28 +40,27 @@ def generate_launch_description():
 
     gazebo_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
-            [str(get_package_share_path("gazebo_ros") / "launch" / "gazebo.launch.py")]
+            [str(get_package_share_path("ros_gz_sim") / "launch" / "gz_sim.launch.py")]
         ),
         launch_arguments={
-            # "extra_gazebo_args": "--ros-args --params-file "
+            # https://github.com/ros-controls/gz_ros2_control/issues/340
+            "gz_args": ["-r -v4 ", world, " --physics-engine gz-physics-bullet-featherstone-plugin"],
             # + str(forg_description / "config" / "gazebo.yaml")
-            "pause": "true",
-            "params_file": str(forg_simulation / "config" / "gazebo.yaml"),
+            "on_exit_shutdown": "true",
             "use_sim_time": use_sim_time,
             "verbose": gazebo_verbose,
             "debug": gazebo_debug,
-            "world": world,
         }.items(),
     )
 
     spawn_entity_node = Node(
-        package="gazebo_ros",
-        executable="spawn_entity.py",
+        package="ros_gz_sim",
+        executable="create",
         name="forg_bot_spawner",
         arguments=[
             "-topic",
             "robot_description",
-            "-entity",
+            "-name",
             "forg_bot",
             "-x",
             pose["x"],
@@ -82,6 +82,24 @@ def generate_launch_description():
         package="controller_manager",
         executable="spawner",
         arguments=["holonomic_rover_controller"],
+    )
+
+    joint_state_broadcaster_spawner = Node(
+        package="controller_manager",
+        executable="spawner",
+        name="joint_state_broadcaster_spawner",
+        arguments=["joint_state_broadcaster"],
+    )
+
+
+    ros_gz_bridge = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            [str(get_package_share_path("ros_gz_bridge") / "launch" / "ros_gz_bridge.launch.py")]
+        ),
+        launch_arguments={
+            "bridge_name": "ros_gz_bridge",
+            "config_file": gz_bridge_params,
+        }.items(),
     )
 
     return LaunchDescription(
@@ -108,8 +126,13 @@ def generate_launch_description():
             ),
             DeclareLaunchArgument(
                 "world",
-                default_value="worlds/empty_sky.world",
+                default_value=str(forg_simulation / "worlds" / "empty.world"),
                 description="Which world to launch in Gazebo",
+            ),
+            DeclareLaunchArgument(
+                "gz_bridge_params",
+                default_value=str(forg_simulation / "config" / "gz_bridge.yaml"),
+                description="ros_gz_bridge parameters file path as string",
             ),
             DeclareLaunchArgument(
                 "x_pose",
@@ -123,7 +146,7 @@ def generate_launch_description():
             ),
             DeclareLaunchArgument(
                 "z_pose",
-                default_value="0.0",
+                default_value="0.09",
                 description="Robot's z coordinate to spawn",
             ),
             DeclareLaunchArgument(
@@ -145,5 +168,7 @@ def generate_launch_description():
             gazebo_launch,
             spawn_entity_node,
             controller_spawner,
+            joint_state_broadcaster_spawner,
+            ros_gz_bridge,
         ]
     )

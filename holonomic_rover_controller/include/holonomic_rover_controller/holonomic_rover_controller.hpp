@@ -99,11 +99,10 @@ protected:
    */
   controller_interface::return_type
   // in Humble:
-  update_reference_from_subscribers() override;
+  // update_reference_from_subscribers() override;
   // Since Iron:
-  /* update_reference_from_subscribers(const rclcpp::Time &time, */
-  /*                                   const rclcpp::Duration &period) override;
-   */
+   update_reference_from_subscribers(const rclcpp::Time &time,
+                                     const rclcpp::Duration &period) override;
 
   /// Execute calculations of the controller and update command interfaces.
   /**

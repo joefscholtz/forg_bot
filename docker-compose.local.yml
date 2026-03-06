@@ -1,0 +1,33 @@
+ # Note: Run `xhost +local:docker` on the host before starting this container
+
+services:
+  forg_bot_app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - "USER_UID=${USER_UID:-1000}"
+    image: forg_bot:latest
+    environment:
+      - WAYLAND_DISPLAY=wayland-0
+      - XDG_RUNTIME_DIR=/run/user/${USER_UID:-1000}
+      - DISPLAY=${DISPLAY}
+      - QT_QPA_PLATFORM=wayland;xcb
+      - LIBGL_ALWAYS_SOFTWARE=1 
+      - MESA_GL_VERSION_OVERRIDE=3.3
+      # This points the container to the authority file we mount below
+      - XAUTHORITY=/home/ros/.Xauthority
+    volumes:
+      # Wayland: Mount the socket into the expected runtime dir inside the container
+      - ${XDG_RUNTIME_DIR}/wayland-0:/run/user/${USER_UID:-1000}/wayland-0
+      # X11: Fallback
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      # Auth: Allow the 'ros' user to authenticate with your XWayland server
+      - ${XAUTHORITY:-$HOME/.Xauthority}:/home/ros/.Xauthority:rw
+      - /dev:/dev
+      - ../..:/workspace:z
+    user: ros
+    hostname: forg_bot
+    working_dir: /workspace
+    device_cgroup_rules:
+      - "c 188:* rwm"
