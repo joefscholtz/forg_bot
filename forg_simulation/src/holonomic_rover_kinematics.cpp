@@ -58,20 +58,24 @@ public:
         this->declare_parameter<double>("middle_to_back_wheel_distance", 1.0);
     wheel_track = this->declare_parameter<double>("wheel_track", 1.0);
 
-    joint_states_publisher =
+    compute = this->declare_parameter<bool>("compute", true);
+
+    if (compute){
+      joint_states_publisher =
         this->create_publisher<sensor_msgs::msg::JointState>(
-            joint_states_output_topic_name, 10);
+          joint_states_output_topic_name, 10);
 
-    joint_states_subscriber =
+      joint_states_subscriber =
         this->create_subscription<sensor_msgs::msg::JointState>(
-            joint_states_input_topic_name, 10,
-            std::bind(&HolonomicRoverKinematics::joint_states_callback, this,
-                      std::placeholders::_1));
+          joint_states_input_topic_name, 10,
+          std::bind(&HolonomicRoverKinematics::joint_states_callback, this,
+                    std::placeholders::_1));
 
-    twist_subscriber = this->create_subscription<geometry_msgs::msg::Twist>(
+      twist_subscriber = this->create_subscription<geometry_msgs::msg::Twist>(
         twist_input_topic_name, 10,
         std::bind(&HolonomicRoverKinematics::twist_callback, this,
                   std::placeholders::_1));
+    }
 
     marker_array_publisher =
         this->create_publisher<visualization_msgs::msg::MarkerArray>(
@@ -82,7 +86,7 @@ public:
   }
 
 private:
-  bool debug;
+  bool debug,compute;
   rclcpp::Publisher<sensor_msgs::msg::JointState>::SharedPtr
       joint_states_publisher;
   rclcpp::Subscription<sensor_msgs::msg::JointState>::SharedPtr

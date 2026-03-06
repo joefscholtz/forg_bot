@@ -14,6 +14,7 @@ def generate_launch_description():
     use_sim_time = LaunchConfiguration("use_sim_time")
     log_level = LaunchConfiguration('log_level')
     nav2_params = LaunchConfiguration('nav2_params')
+    rviz_config = LaunchConfiguration("rviz_config")
 
     remappings = [('/tf', 'tf'), ('/tf_static', 'tf_static')]
 
@@ -52,6 +53,46 @@ def generate_launch_description():
         + [('cmd_vel', 'cmd_vel_nav'),('cmd_vel_smoothed', 'holonomic_rover_controller/reference')],
     )
 
+    left_holonomic_rover_kinematics_node = Node(
+        package="forg_simulation",
+        executable="holonomic_rover_kinematics",
+        name="left_holonomic_rover_kinematics_node",
+        parameters=[
+            {"debug": False},
+            {"compute": False},
+            {"front_wheel": "left_front_wheel"},
+            {"front_steering_wheel": "left_front_wheel_steering_gear_joint"},
+            {"middle_wheel": "left_middle_wheel"},
+            {"middle_steering_wheel": "left_middle_wheel_steering_gear_joint"},
+            {"rear_wheel": "left_back_wheel"},
+            {"rear_steering_wheel": "left_back_wheel_steering_gear_joint"},
+        ],
+    )
+
+    right_holonomic_rover_kinematics_node = Node(
+        package="forg_simulation",
+        executable="holonomic_rover_kinematics",
+        name="right_holonomic_rover_kinematics_node",
+        parameters=[
+            {"debug": False},
+            {"compute": False},
+            {"front_wheel": "right_front_wheel"},
+            {"front_steering_wheel": "right_front_wheel_steering_gear_joint"},
+            {"middle_wheel": "right_middle_wheel"},
+            {"middle_steering_wheel": "right_middle_wheel_steering_gear_joint"},
+            {"rear_wheel": "right_back_wheel"},
+            {"rear_steering_wheel": "right_back_wheel_steering_gear_joint"},
+            {"markers_topic_name": "right_normal_vectors_to_wheel"},
+        ],
+    )
+
+    rviz_node = Node(
+        package="rviz2",
+        executable="rviz2",
+        output="screen",
+        arguments=["-d", rviz_config],
+    )
+
     return LaunchDescription(
         [
             DeclareLaunchArgument(
@@ -67,8 +108,16 @@ def generate_launch_description():
                 default_value=str(forg_navigation / "config" / "nav2_params.yaml"),
                 description="nav2 parameters file path as string",
             ),
+            DeclareLaunchArgument(
+                "rviz_config",
+                default_value=str(forg_simulation / "rviz" / "display.rviz"),
+                description="Path to rviz config file",
+            ),
             gazebo_launch,
             nav2_lifecycle_manager,
             velocity_smoother,
+            left_holonomic_rover_kinematics_node,
+            right_holonomic_rover_kinematics_node,
+            rviz_node,
         ]
     )

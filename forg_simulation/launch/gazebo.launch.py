@@ -84,6 +84,14 @@ def generate_launch_description():
         arguments=["holonomic_rover_controller"],
     )
 
+    joint_state_broadcaster_spawner = Node(
+        package="controller_manager",
+        executable="spawner",
+        name="joint_state_broadcaster_spawner",
+        arguments=["joint_state_broadcaster"],
+    )
+
+
     ros_gz_bridge = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             [str(get_package_share_path("ros_gz_bridge") / "launch" / "ros_gz_bridge.launch.py")]
@@ -160,6 +168,7 @@ def generate_launch_description():
             gazebo_launch,
             spawn_entity_node,
             controller_spawner,
+            joint_state_broadcaster_spawner,
             ros_gz_bridge,
         ]
     )

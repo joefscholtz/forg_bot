@@ -253,7 +253,6 @@ HolonomicRoverController::update_and_write_commands(
       left_rr = r + w + lm + lr;
 
       right_rf = r - w + lm + lf;
-
       right_rm = r - w + lm;
       right_rr = r - w + lm + lr;
     } else {
