@@ -246,7 +246,7 @@ HolonomicRoverController::update_and_write_commands(
   double v_rf{0}, v_rm{0}, v_rr{0};
 
   if (v.squaredNorm() != 0 || omega.squaredNorm() != 0) {
-    if (omega.squaredNorm() < 1e-5) {
+    if (omega.squaredNorm() > 1e-5) {
       r = omega.cross(v) / (omega.squaredNorm());
       left_rf = r + w + lm + lf;
       left_rm = r + w + lm;
@@ -260,7 +260,6 @@ HolonomicRoverController::update_and_write_commands(
       omega(1) = 0;
       omega(2) = 1;
       r = omega.cross(v);
-      omega(2) = 0;
       left_rf = r;
       left_rm = r;
       left_rr = r;
