@@ -3,6 +3,11 @@
     <physics name="1ms" type="ignored">
       <max_step_size>0.001</max_step_size>
       <real_time_factor>1.0</real_time_factor>
+      <ode>
+        <solver>
+          <iters>100</iters>
+        </solver>
+      </ode>
     </physics>
     <plugin
       filename="gz-sim-physics-system"
