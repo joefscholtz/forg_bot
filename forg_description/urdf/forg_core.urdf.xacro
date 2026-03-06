@@ -5,7 +5,7 @@
   <xacro:include filename="left_middle_arm.urdf.xacro"/>
   <xacro:include filename="left_front_arm.urdf.xacro"/>
   <xacro:include filename="left_back_arm.urdf.xacro"/>
-  <xacro:include filename="mimic_joint_plugin_macro.urdf.xacro"/>
+  <xacro:include filename="lidar.urdf.xacro"/>
   <xacro:include filename="right_middle_arm.urdf.xacro"/>
   <xacro:include filename="right_front_arm.urdf.xacro"/>
   <xacro:include filename="right_back_arm.urdf.xacro"/>
@@ -18,38 +18,27 @@
   <!-- <joint name="world_joint" type="fixed"> -->
   <!--   <parent link="world"/> -->
   <!--   <child link="base_link"/> -->
-  <!--   <origin xyz="0 0 0.01"/> -->
+  <!--   <origin xyz="0 0 0.5"/> -->
   <!-- </joint> -->
 
   <link name="base_link"/>
 
   <xacro:base name="base" parent="base_link">
-    <origin xyz="0 0 0.355" rpy="0 0 ${pi/2}"/> <!-- wheels touch the ground with z=0.345-->
+    <origin xyz="0 0 0.355" rpy="0 0 0"/> <!-- wheels touch the ground with z=0.345-->
   </xacro:base>
 
   <!-- Add joints and links to simulation differential-like gears -->
   <!-- This is made in order to make the rotation of the shoulders to be the oposite to one another-->
 
-  <joint name="shoulder_joint" type="continuous">
-    <parent link="base"/>
-    <child link="shoulder"/>
-    <origin xyz="0 ${-0.225} 0"/>
-    <axis xyz="0 1 0"/>
-  </joint>
-
-  <link name="shoulder">
-  </link>
-
   <joint name="shoulder_left_joint" type="continuous">
+    <mimic joint="shoulder_right_joint" multiplier="-1"/>
     <parent link="base"/>
     <child link="shoulder_left"/>
-    <origin xyz="${0.255/2 + 0.05} ${0.045-0.225} 0"/>
+    <origin xyz="${-0.045+0.225} ${0.255/2 + 0.05} 0" rpy="0 0 ${pi/2}"/>
     <axis xyz="1 0 0"/>
-    <mimic joint="shoulder_joint" multiplier="1"/>
     <limit effort="${10}" velocity="${360*2*pi/60}"/> 
     <dynamics damping="0.1" friction="50"/> <!-- TODO replace with real properties -->
   </joint>
-  <!-- <xacro:mimic_joint_plugin_gazebo name_prefix="shoulder_left" parent_joint="shoulder_joint" mimic_joint="shoulder_left_joint" multiplier="1.0" /> -->
 
   <link name="shoulder_left">
   </link>
@@ -57,13 +46,11 @@
   <joint name="shoulder_right_joint" type="continuous">
     <parent link="base"/>
     <child link="shoulder_right"/>
-    <origin xyz="${-0.255/2 - 0.05} ${0.045-0.225} 0"/>
+    <origin xyz="${-0.045+0.225} ${-0.255/2 - 0.05} 0" rpy="0 0 ${pi/2}"/>
     <axis xyz="1 0 0"/>
-    <mimic joint="shoulder_joint" multiplier="-1"/>
     <limit effort="${10}" velocity="${360*2*pi/60}"/> 
     <dynamics damping="0.1" friction="50"/> <!-- TODO replace with real properties -->
   </joint>
-  <xacro:mimic_joint_plugin_gazebo name_prefix="shoulder_right" parent_joint="shoulder_left_joint" mimic_joint="shoulder_right_joint" multiplier="-1.0" debug="false" use_pid="true" kp="100.0" ki="100.0" kd="100.0"/>
 
   <link name="shoulder_right">
   </link>
@@ -116,5 +103,9 @@
   <xacro:right_back_arm name="right_back_arm" parent="right_middle_arm">
     <origin xyz="${-0.045/2 - 0.11 + 0.07/2} ${0.18 + 0.2} ${-0.075}" rpy="0 0 0"/>
   </xacro:right_back_arm>
+
+  <xacro:lidar name="lidar" parent="base">
+    <origin xyz="0 0 0.2" rpy="0 0 0"/>
+  </xacro:lidar>
 
 </robot>

@@ -6,7 +6,7 @@
   <xacro:if value="$(arg simulation)">
     <ros2_control name="GazeboSystem" type="system">
       <hardware>
-        <plugin>gazebo_ros2_control/GazeboSystem</plugin>
+        <plugin>gz_ros2_control/GazeboSimSystem</plugin>
       </hardware>
       <joint name="left_front_wheel_steering_gear_joint">
         <command_interface name="position"/>
@@ -82,25 +82,31 @@
         <state_interface name="effort"/>
       </joint>
 
-      <!-- <joint name="shoulder_left_joint"> -->
-      <!--   <command_interface name="position"/> -->
-      <!--   <state_interface name="position"/> -->
-      <!--   <state_interface name="velocity"/> -->
-      <!--   <state_interface name="effort"/> -->
-      <!-- </joint> -->
-      <!-- <joint name="shoulder_right_joint"> -->
-      <!--   <param name="mimic">shoulder_left_joint</param> -->
-      <!--   <param name="multiplier">-1</param> -->
-      <!--   <command_interface name="position"/> -->
-      <!--   <state_interface name="position"/> -->
-      <!--   <state_interface name="velocity"/> -->
-      <!--   <state_interface name="effort"/> -->
-      <!-- </joint> -->
+      <joint name="shoulder_left_joint">
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+        <state_interface name="effort"/>
+      </joint>
+      <joint name="shoulder_right_joint">
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+        <state_interface name="effort"/>
+      </joint>
+      <joint name="left_back_arm_joint">
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+        <state_interface name="effort"/>
+      </joint>
+      <joint name="right_back_arm_joint">
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+        <state_interface name="effort"/>
+      </joint>
     </ros2_control>
 
     <gazebo>
-      <plugin name="gazebo_ros2_control" filename="libgazebo_ros2_control.so">
-        <parameters>$(find forg_description)/config/gazebo_ros2_control.yaml</parameters>
+      <plugin name="gz_ros2_control::GazeboSimROS2ControlPlugin" filename="libgz_ros2_control-system.so">
+        <parameters>$(find forg_description)/config/gz_ros2_control.yaml</parameters>
       </plugin>
     </gazebo>
   </xacro:if>

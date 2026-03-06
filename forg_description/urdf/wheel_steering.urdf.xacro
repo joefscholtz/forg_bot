@@ -4,8 +4,6 @@
   <xacro:include filename="inertial_macros.urdf.xacro"/>
   <xacro:include filename="wheel.urdf.xacro"/>
 
-	<xacro:arg name="ignition" default="false"/>
-
 	<xacro:macro name="wheel_steering" params="name parent *origin">
 
     <joint name="${name}_base_joint" type="fixed">
