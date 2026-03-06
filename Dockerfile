@@ -32,6 +32,7 @@ RUN apt-get update \
   ros-jazzy-ament-lint-common \
   ros-jazzy-generate-parameter-library \
   ros-jazzy-eigen3-cmake-module \
+  ros-jazzy-navigation2 \
   libeigen3-dev \
   libmodbus-dev \
   && rm -rf /var/lib/apt/lists/*
