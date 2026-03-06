@@ -260,6 +260,10 @@ HolonomicRoverController::update_and_write_commands(
       omega(1) = 0;
       omega(2) = 1;
       r = omega.cross(v);
+      RCLCPP_WARN_STREAM(
+        get_node()->get_logger(),
+        "holonomic_rover_kinematics debug: omega:" << omega << "\n"
+      );
       left_rf = r;
       left_rm = r;
       left_rr = r;

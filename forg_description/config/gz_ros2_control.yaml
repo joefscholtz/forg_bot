@@ -10,7 +10,7 @@ controller_manager:
 
 holonomic_rover_controller:
   ros__parameters:
-    debug: true
+    debug: false
     rear_wheels_steering_names:
       [
         "left_back_wheel_steering_gear_joint",
