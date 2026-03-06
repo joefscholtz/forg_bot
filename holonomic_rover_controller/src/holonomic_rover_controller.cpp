@@ -246,7 +246,7 @@ HolonomicRoverController::update_and_write_commands(
   double v_rf{0}, v_rm{0}, v_rr{0};
 
   if (v.squaredNorm() != 0 || omega.squaredNorm() != 0) {
-    if (omega.squaredNorm() != 0) {
+    if (omega.squaredNorm() < 1e-5) {
       r = omega.cross(v) / (omega.squaredNorm());
       left_rf = r + w + lm + lf;
       left_rm = r + w + lm;
@@ -260,6 +260,7 @@ HolonomicRoverController::update_and_write_commands(
       omega(1) = 0;
       omega(2) = 1;
       r = omega.cross(v);
+      omega(2) = 0;
       left_rf = r;
       left_rm = r;
       left_rr = r;
@@ -283,6 +284,40 @@ HolonomicRoverController::update_and_write_commands(
     delta_rf = std::atan2(right_rf(1), right_rf(0)) - M_PI_2;
     delta_rm = std::atan2(right_rm(1), right_rm(0)) - M_PI_2;
     delta_rr = std::atan2(right_rr(1), right_rr(0)) - M_PI_2;
+  }
+  if (params_.debug) {
+  RCLCPP_WARN_STREAM(
+      get_node()->get_logger(),
+      "holonomic_rover_kinematics debug: \n"
+          << "twist.x: " << v(0) << "\n"
+          << "twist.y: " << v(1) << "\n"
+          << "twist.z: " << omega(2) << "\n"
+          << "r: " << r << "\n"
+          << "w: " << w << "\n"
+          << "lf: " << lf << "\n"
+          << "lm: " << lm << "\n"
+          << "lr: " << lr << "\n"
+          << "left_rf: " << left_rf << "\n"
+          << "left_rm: " << left_rm << "\n"
+          << "left_rr: " << left_rr << "\n"
+          << "right_rf: " << right_rf << "\n"
+          << "right_rm: " << right_rm << "\n"
+          << "right_rr: " << right_rr << "\n"
+          << "\n"
+          << "delta_lf: " << delta_lf * 180 / M_PI << "\n"
+          << "delta_lm: " << delta_lm * 180 / M_PI << "\n"
+          << "delta_lr: " << delta_lr * 180 / M_PI << "\n"
+          << "delta_rf: " << delta_rf * 180 / M_PI << "\n"
+          << "delta_rm: " << delta_rm * 180 / M_PI << "\n"
+          << "delta_rr: " << delta_rr * 180 / M_PI << "\n" 
+          << "v_lr: " << v_lr << "\n"
+          << "v_rr: " << v_rr << "\n"
+          << "v_lm: " << v_lm << "\n"
+          << "v_rm: " << v_rm << "\n"
+          << "v_lf: " << v_lf << "\n"
+          << "v_lf: " << v_lf
+    );
+
   }
 
   // wheels velocities

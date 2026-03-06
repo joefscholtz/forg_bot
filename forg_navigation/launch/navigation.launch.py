@@ -53,36 +53,24 @@ def generate_launch_description():
         + [('cmd_vel', 'cmd_vel_nav'),('cmd_vel_smoothed', 'holonomic_rover_controller/reference')],
     )
 
-    left_holonomic_rover_kinematics_node = Node(
+    holonomic_rover_kinematics_node = Node(
         package="forg_simulation",
         executable="holonomic_rover_kinematics",
-        name="left_holonomic_rover_kinematics_node",
         parameters=[
             {"debug": False},
             {"compute": False},
-            {"front_wheel": "left_front_wheel"},
-            {"front_steering_wheel": "left_front_wheel_steering_gear_joint"},
-            {"middle_wheel": "left_middle_wheel"},
-            {"middle_steering_wheel": "left_middle_wheel_steering_gear_joint"},
-            {"rear_wheel": "left_back_wheel"},
-            {"rear_steering_wheel": "left_back_wheel_steering_gear_joint"},
-        ],
-    )
-
-    right_holonomic_rover_kinematics_node = Node(
-        package="forg_simulation",
-        executable="holonomic_rover_kinematics",
-        name="right_holonomic_rover_kinematics_node",
-        parameters=[
-            {"debug": False},
-            {"compute": False},
-            {"front_wheel": "right_front_wheel"},
-            {"front_steering_wheel": "right_front_wheel_steering_gear_joint"},
-            {"middle_wheel": "right_middle_wheel"},
-            {"middle_steering_wheel": "right_middle_wheel_steering_gear_joint"},
-            {"rear_wheel": "right_back_wheel"},
-            {"rear_steering_wheel": "right_back_wheel_steering_gear_joint"},
-            {"markers_topic_name": "right_normal_vectors_to_wheel"},
+            {"left_front_wheel": "left_front_wheel"},
+            {"left_front_steering": "left_front_wheel_steering_gear_joint"},
+            {"left_middle_wheel": "left_middle_wheel"},
+            {"left_middle_steering": "left_middle_wheel_steering_gear_joint"},
+            {"left_rear_wheel": "left_back_wheel"},
+            {"left_rear_steering": "left_back_wheel_steering_gear_joint"},
+            {"right_front_wheel": "right_front_wheel"},
+            {"right_front_steering": "right_front_wheel_steering_gear_joint"},
+            {"right_middle_wheel": "right_middle_wheel"},
+            {"right_middle_steering": "right_middle_wheel_steering_gear_joint"},
+            {"right_rear_wheel": "right_back_wheel"},
+            {"right_rear_steering": "right_back_wheel_steering_gear_joint"},
         ],
     )
 
@@ -116,8 +104,7 @@ def generate_launch_description():
             gazebo_launch,
             nav2_lifecycle_manager,
             velocity_smoother,
-            left_holonomic_rover_kinematics_node,
-            right_holonomic_rover_kinematics_node,
+            holonomic_rover_kinematics_node,
             rviz_node,
         ]
     )

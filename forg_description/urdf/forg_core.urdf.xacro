@@ -24,7 +24,7 @@
   <link name="base_link"/>
 
   <xacro:base name="base" parent="base_link">
-    <origin xyz="0 0 0.355" rpy="0 0 ${pi/2}"/> <!-- wheels touch the ground with z=0.345-->
+    <origin xyz="0 0 0.355" rpy="0 0 0"/> <!-- wheels touch the ground with z=0.345-->
   </xacro:base>
 
   <!-- Add joints and links to simulation differential-like gears -->
@@ -34,7 +34,7 @@
     <mimic joint="shoulder_right_joint" multiplier="-1"/>
     <parent link="base"/>
     <child link="shoulder_left"/>
-    <origin xyz="${0.255/2 + 0.05} ${0.045-0.225} 0"/>
+    <origin xyz="${-0.045+0.225} ${0.255/2 + 0.05} 0" rpy="0 0 ${pi/2}"/>
     <axis xyz="1 0 0"/>
     <limit effort="${10}" velocity="${360*2*pi/60}"/> 
     <dynamics damping="0.1" friction="50"/> <!-- TODO replace with real properties -->
@@ -46,7 +46,7 @@
   <joint name="shoulder_right_joint" type="continuous">
     <parent link="base"/>
     <child link="shoulder_right"/>
-    <origin xyz="${-0.255/2 - 0.05} ${0.045-0.225} 0"/>
+    <origin xyz="${-0.045+0.225} ${-0.255/2 - 0.05} 0" rpy="0 0 ${pi/2}"/>
     <axis xyz="1 0 0"/>
     <limit effort="${10}" velocity="${360*2*pi/60}"/> 
     <dynamics damping="0.1" friction="50"/> <!-- TODO replace with real properties -->
