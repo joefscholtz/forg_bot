@@ -50,8 +50,8 @@ def generate_launch_description():
         parameters=[nav2_params],
         arguments=['--ros-args', '--log-level', log_level],
         remappings=remappings
-        # + [('cmd_vel', 'cmd_vel_nav'),('cmd_vel_smoothed', 'holonomic_rover_controller/reference')],
-        + [('cmd_vel', 'cmd_vel_nav')],
+        + [('cmd_vel', 'cmd_vel_nav'),('cmd_vel_smoothed', 'holonomic_rover_controller/reference')],
+        # + [('cmd_vel', 'cmd_vel_nav')],
     )
 
     holonomic_rover_kinematics_node = Node(

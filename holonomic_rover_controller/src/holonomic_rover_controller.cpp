@@ -287,7 +287,7 @@ HolonomicRoverController::update_and_write_commands(
   if (params_.debug) {
   RCLCPP_WARN_STREAM(
       get_node()->get_logger(),
-      "holonomic_rover_kinematics debug: \n"
+      "holonomic_rover_controller debug: \n"
           << "twist.x: " << v(0) << "\n"
           << "twist.y: " << v(1) << "\n"
           << "twist.z: " << omega(2) << "\n"
