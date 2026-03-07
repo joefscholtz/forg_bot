@@ -44,8 +44,8 @@ def generate_launch_description():
         ),
         launch_arguments={
             # https://github.com/ros-controls/gz_ros2_control/issues/340
-            "gz_args": ["-r -v4 ", world, " --physics-engine gz-physics-bullet-featherstone-plugin"],
-            # + str(forg_description / "config" / "gazebo.yaml")
+            # "gz_args": ["-r -v4 ", world, " --physics-engine gz-physics-bullet-featherstone-plugin"],
+            "gz_args": ["-r -v4 ", world],
             "on_exit_shutdown": "true",
             "use_sim_time": use_sim_time,
             "verbose": gazebo_verbose,
