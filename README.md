@@ -12,9 +12,9 @@ For more information about each package, take a look in the corresponding `READM
 
 ## Preview
 
-Forg Bot model displayed in rviz2:
+Forg Bot demo in Gazebo Sim and ICP allocation visualization inside rviz2:
 
-![Rviz2 display](assets/forg_description-display.png)
+![forg_bot demo](assets/forg_bot_demo.gif)
 
 ## Install
 
