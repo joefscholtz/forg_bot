@@ -14,7 +14,7 @@ For more information about each package, take a look in the corresponding `READM
 
 Forg Bot demo in Gazebo Sim and ICP allocation visualization inside rviz2:
 
-![forg_bot demo](assets/forg_bot_demo.gif)
+![forg_bot demo](./assets/forg_bot_demo.gif)
 
 ## Install
 
